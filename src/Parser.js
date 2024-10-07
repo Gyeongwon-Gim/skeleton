@@ -1,5 +1,5 @@
 class Parser {
-    cols(cols) {
+    static cols(cols) {
         /*
 			1. 배열의 각 원소 양쪽을 백틱(`)으로 감싼다.
 			2. 배열을 콤마(,)로 구분한 문자열로 만든다.
@@ -7,11 +7,11 @@ class Parser {
 		*/
     }
 
-    into(into) {
+    static into(into) {
         return into;
     }
 
-    set(set) {
+    static set(set) {
         /*
 			1. 객체인지 문자열(서브쿼리)인지 확인한다.
 			2. 객체일 경우
@@ -24,7 +24,7 @@ class Parser {
 		*/
     }
 
-    values(values) {
+    static values(values) {
         /*
 			1. 각 행의 값을 괄호로 감싸고, 값들을 콤마로 구분한다.
 				ex)  ('Alice', 'alice@mail.com`, 30)
@@ -33,7 +33,7 @@ class Parser {
 		*/
     }
 
-    from(from) {
+    static from(from) {
         /*
 			1. 배열인지 문자열(서브쿼리)인지 확인한다.
 			2. 배열일 경우
@@ -44,7 +44,7 @@ class Parser {
 		*/
     }
 
-    distinct(distinct) {
+    static distinct(distinct) {
         /*
 		   1. distinct의 불리언 값을 조사한다.
 		   2-1. 만약 값이 true면 DISTINCT 키워드를 반환한다.
@@ -52,7 +52,7 @@ class Parser {
 	   */
     }
 
-    join(join) {
+    static join(join) {
         /*
 			1. join 배열 순회
 				1-1. join[i].type + " JOIN" 문자열 생성
@@ -62,7 +62,7 @@ class Parser {
 		*/
     }
 
-    orderBy(orderBy) {
+    static orderBy(orderBy) {
         /*
 			1. orderBy.cols 배열의 각 컬럼명을 백틱으로 이스케이프한다.
 			2. orderBy.order 배열의 각 순서를 가져와서 컬럼명과 매칭시켜준다 		
@@ -75,7 +75,7 @@ class Parser {
 		*/
     }
 
-    groupBy(groupBy) {
+    static groupBy(groupBy) {
         /*
 		  1. groupBy.cols 배열의 각 컬럼명을 백틱으로 이스케이프하고 콤마로 구분한다.
 			  ex) `category`, `author`
@@ -86,12 +86,12 @@ class Parser {
 		*/
     }
 
-    where(where) {
+    static where(where) {
         // 식별자(컬럼명, 테이블명) 백틱으로 감싸기
         return where ? `WHERE ${where}` : "";
     }
 
-    limit(limit) {
+    static limit(limit) {
         /* Todos: 수정 필요! (limit 타입 변경) */
         return limit ? `LIMIT %{limit}` : "";
     }
