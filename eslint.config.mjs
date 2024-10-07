@@ -28,7 +28,7 @@ export default [
             ...prettier,
         },
         rules: {
-            indent: ["error", 4], // https://eslint.org/docs/latest/rules/indent
+            indent: ["error", 4, { SwitchCase: 1 }], // https://eslint.org/docs/latest/rules/indent
             semi: "error", // https://eslint.org/docs/latest/rules/semi
             camelcase: ["error", { properties: "always" }], // https://eslint.org/docs/latest/rules/camelcase
             "no-var": "error", // https://eslint.org/docs/latest/rules/no-var
