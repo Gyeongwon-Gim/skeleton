@@ -60,7 +60,6 @@ class Parser {
         }
         return result.join("\n");
     }
-
     static orderBy(orderBy) {
         /*
 			1. orderBy.cols 배열의 각 컬럼명을 백틱으로 이스케이프한다.
@@ -75,14 +74,16 @@ class Parser {
     }
 
     static groupBy(groupBy) {
-        /*
-		  1. groupBy.cols 배열의 각 컬럼명을 백틱으로 이스케이프하고 콤마로 구분한다.
-			  ex) `category`, `author`
-		  2. groupBy.having 문자열이 존재하면 HAVING 키워드와 함께 추가한다.
-		  3. 1번의 결과와 2번의 결과를 통해 문자열을 조합하여 반환한다.
-			  ex) GROUP BY `category`, `author` HAVING COUNT(*) > 1
-		  
-		*/
+        // 1. groupBy.cols 배열의 각 컬럼명을 백틱으로 이스케이프하고 콤마로 구분한다 ex) `category`, `author`
+        let cols = Array.isArray(groupBy.cols)
+            ? groupBy.cols.map((col) => `\`${col}\``).join(', ')
+            : `\`${groupBy.cols}\``;
+        
+        // 2. groupBy.having 문자열이 존재하면 HAVING 키워드와 함께 추가한다.
+        let having = groupBy.having ? ` HAVING ${groupBy.having}` : '';
+
+        // 3. 1번의 결과와 2번의 결과를 통해 문자열을 조합하여 반환한다. ex) GROUP BY `category`, `author` HAVING COUNT(*) > 1
+        return `GROUP BY ${cols}${having}`;
     }
 
     static where(where) {
@@ -91,9 +92,19 @@ class Parser {
     }
 
     static limit(limit) {
-        /* Todos: 수정 필요! (limit 타입 변경) */
-        return limit ? `LIMIT %{limit}` : "";
+        // 1. limit 값이 존재하면 LIMIT 구문을 반환하고, 없으면 빈 문자열을 반환합니다.
+        // limit 객체에는 base와 offset 값이 있을 수 있습니다.
+        if (limit) {
+            const { base, offset } = limit;
+            if (typeof base === 'number' && typeof offset === 'number') {
+                return `LIMIT ${base}, ${offset}`;
+            } else if (typeof base === 'number') {
+                return `LIMIT ${base}`;
+            }
+        }
+        return ''; // limit가 없을 경우 빈 문자열 반환
     }
+
 }
 
 export default Parser;
