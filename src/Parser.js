@@ -1,10 +1,10 @@
+import { wrapBacktick, wrapBacktickExpression } from "./utils/backtick.js";
+
 class Parser {
     static cols(cols) {
-        /*
-			1. 배열의 각 원소 양쪽을 백틱(`)으로 감싼다.
-			2. 배열을 콤마(,)로 구분한 문자열로 만든다.
-			3. 문자열을 괄호로 감싼다.
-		*/
+        cols = cols.map((e) => wrapBacktick(e));
+        const colsStr = cols.join(", ");
+        return `(${colsStr})`;
     }
 
     static into(into) {
@@ -45,21 +45,20 @@ class Parser {
     }
 
     static distinct(distinct) {
-        /*
-		   1. distinct의 불리언 값을 조사한다.
-		   2-1. 만약 값이 true면 DISTINCT 키워드를 반환한다.
-		   2-2. 만약 값이 false면 빈 문자열을 반환한다.
-	   */
+        if (distinct) return "DISTINCT";
+        else return "";
     }
 
     static join(join) {
-        /*
-			1. join 배열 순회
-				1-1. join[i].type + " JOIN" 문자열 생성
-				1-2. 2번에서 생성된 문자열 + " " + join[i].table
-				1-3. 3번에서 생성된 문자열 + " ON" + join[i].on
-			2. join 배열을 " "로 구분하여 하나의 문자열로 합친다.
-		*/
+        let result = [];
+        for (const { type, from, on } of join) {
+            const joinStatement = [];
+            joinStatement.push(`${type} JOIN`);
+            joinStatement.push(Parser.from(from));
+            joinStatement.push(`ON ${wrapBacktickExpression(on)}`);
+            result.push(joinStatement.join(" "));
+        }
+        return result.join("\n");
     }
 
     static orderBy(orderBy) {
