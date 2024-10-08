@@ -52,7 +52,7 @@ class Parser {
 					ex) "books, categories"
 			3. 문자열일 경우 그대로 리턴한다.
 		*/
-        if (typeof from === "string") {
+        if (Array.isArray(from)) {
             return from.join(", ");
         } else {
             // 예외 처리
@@ -98,11 +98,11 @@ class Parser {
     static groupBy(groupBy) {
         // 1. groupBy.cols 배열의 각 컬럼명을 백틱으로 이스케이프하고 콤마로 구분한다 ex) `category`, `author`
         let cols = Array.isArray(groupBy.cols)
-            ? groupBy.cols.map((col) => `\`${col}\``).join(', ')
+            ? groupBy.cols.map((col) => `\`${col}\``).join(", ")
             : `\`${groupBy.cols}\``;
-        
+
         // 2. groupBy.having 문자열이 존재하면 HAVING 키워드와 함께 추가한다.
-        let having = groupBy.having ? ` HAVING ${groupBy.having}` : '';
+        let having = groupBy.having ? ` HAVING ${groupBy.having}` : "";
 
         // 3. 1번의 결과와 2번의 결과를 통해 문자열을 조합하여 반환한다. ex) GROUP BY `category`, `author` HAVING COUNT(*) > 1
         return `GROUP BY ${cols}${having}`;
@@ -118,15 +118,14 @@ class Parser {
         // limit 객체에는 base와 offset 값이 있을 수 있습니다.
         if (limit) {
             const { base, offset } = limit;
-            if (typeof base === 'number' && typeof offset === 'number') {
+            if (typeof base === "number" && typeof offset === "number") {
                 return `LIMIT ${base}, ${offset}`;
-            } else if (typeof base === 'number') {
+            } else if (typeof base === "number") {
                 return `LIMIT ${base}`;
             }
         }
-        return ''; // limit가 없을 경우 빈 문자열 반환
+        return ""; // limit가 없을 경우 빈 문자열 반환
     }
-
 }
 
 export default Parser;
