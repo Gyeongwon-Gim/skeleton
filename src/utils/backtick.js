@@ -4,7 +4,6 @@
  * @returns {string}
  */
 export function wrapBacktick(identifiers) {
-    // identifiers가 객체일 경우 { key : value } => key
     return identifiers
         .split(".")
         .map((id) => `\`${id}\``)
@@ -23,10 +22,10 @@ export function wrapBacktickExpression(expression) {
         .split(regex)
         .map((token) => {
             // 토큰이 연산자가 아닐 경우
-            if (!regex.test(token)) {
-                return wrapBacktick(token.trim());
+            if (regex.test(token)) {
+                return token;
             }
-            return token;
+            return wrapBacktick(token.trim());
         })
         .join(" ");
 }
