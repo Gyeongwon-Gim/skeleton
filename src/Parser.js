@@ -31,6 +31,16 @@ class Parser {
 			2. 각 행을 콤마로 구분하여 하나의 문자열로 만든다.
 			  ex) ('Alice', 'alice@mail.com', 30), ('Kim', 'kim@mail.com', 25)
 		*/
+        const rows = values.map((row) => {
+            const rowString = row
+                .map((value) => {
+                    return typeof value === "string" ? `\`${value}\`` : value;
+                })
+                .join(", ");
+            return `${rowString}`;
+        });
+
+        return rows.join(",");
     }
 
     static from(from) {
@@ -42,6 +52,12 @@ class Parser {
 					ex) "books, categories"
 			3. 문자열일 경우 그대로 리턴한다.
 		*/
+        if (typeof from === "string") {
+            return from.join(", ");
+        } else {
+            // 예외 처리
+            throw new Error("from array must contain at least one table.");
+        }
     }
 
     static distinct(distinct) {
@@ -71,6 +87,12 @@ class Parser {
 						출력 
 						 `name` ASC, `age` DESC
 		*/
+        const columnsWithOrder = orderBy.cols.map((col, index) => {
+            const order = orderBy.order[index];
+            return `\`${col}\` ${order}`;
+        });
+
+        return `ORDER BY ${columnsWithOrder.join(", ")}`;
     }
 
     static groupBy(groupBy) {
