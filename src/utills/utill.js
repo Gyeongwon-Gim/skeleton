@@ -17,7 +17,7 @@ export function wrapBacktick(identifiers) {
  * @returns {string}
  */
 export function wrapBacktickExpression(expression) {
-    const regex = /(=|>|<|>=|<=|!=|\+|-|\*|\/|AND|OR|\|\||&&|LIKE)/;
+    const regex = /(=|>|<|>=|<=|!=|\+|-|\*|\/|\bAND\b|\bOR\b|\|\||&&|\bLIKE\b|\bBETWEEN\b)/i;
     // 정규식을 이용해 연산자를 기준으로 분리
     return expression
         .split(regex)
