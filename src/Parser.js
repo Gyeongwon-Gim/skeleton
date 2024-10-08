@@ -5,6 +5,9 @@ class Parser {
 			2. 배열을 콤마(,)로 구분한 문자열로 만든다.
 			3. 문자열을 괄호로 감싼다.
 		*/
+        cols = cols.map((e) => wrapBacktick(e));
+        const colsStr = cols.join(", ");
+        return `(${colsStr})`;
     }
 
     static into(into) {
@@ -96,5 +99,11 @@ class Parser {
         return limit ? `LIMIT %{limit}` : "";
     }
 }
+
+function wrapBacktick(str) {
+    return `\`${str}\``;
+}
+
+console.log(Parser.cols(["name", "age"]));
 
 export default Parser;
