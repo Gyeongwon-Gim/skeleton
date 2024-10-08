@@ -1,4 +1,4 @@
-import { wrapBacktick, wrapBacktickExpression } from "./utills/utill.js";
+import { wrapBacktick, wrapBacktickExpression } from "./utils/backtick.js";
 
 class Parser {
     static cols(cols) {
