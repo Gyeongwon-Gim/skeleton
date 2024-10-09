@@ -38,12 +38,11 @@ class Parser {
         const rows = values.map((row) => {
             const rowString = row
                 .map((value) => {
-                    return typeof value === "string" ? `\`${value}\`` : value;
+                    return typeof value === "string" ? wrapBacktick(value) : value;
                 })
                 .join(", ");
-            return `${rowString}`;
+            return `(${rowString})`;
         });
-
         return rows.join(",");
     }
 
@@ -56,11 +55,17 @@ class Parser {
 					ex) "books, categories"
 			3. 문자열일 경우 그대로 리턴한다.
 		*/
-        if (Array.isArray(from)) {
-            return wrapBacktick(from.join(", "));
+        if (typeof from === "string" || Array.isArray(from)) {
+            if (typeof from === "string") {
+                return `${from}`;
+            }
+            // 배열일 경우, 배열의 원소가 모두 문자열인지 확인
+            if (from.every((item) => typeof item === "string")) {
+                return `${from.join(", ")}`;
+            }
+            throw new TypeError("배열의 원소 타입은 문자형이어야 합니다");
         } else {
-            // 예외 처리
-            throw new Error("from array must contain at least one table.");
+            throw new TypeError("매개변수의 타입이 배열이나 문자 형태여야 합니다.");
         }
     }
 
@@ -95,6 +100,10 @@ class Parser {
 						출력 
 						 `name` ASC, `age` DESC
 		*/
+        // 컬럼명이 모두 문자열인지 확인
+        if (!orderBy.cols.every((col) => typeof col === "string")) {
+            throw new TypeError("컬럼명은 모두 문자형이어야 함니다");
+        }
         const columnsWithOrder = orderBy.cols.map((col, index) => {
             const order = orderBy.order[index];
             return `\`${col}\` ${order}`;

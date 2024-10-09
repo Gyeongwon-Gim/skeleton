@@ -147,7 +147,110 @@ function intoTest() {
     console.log(`into : ${isPass}`);
 }
 
-colsTest();
-joinTest();
-distinctTest();
-intoTest();
+function fromTest() {
+    // given
+    const inputs = [["books", "categories"], "books", ["books", 123], 123];
+
+    // when
+    const results = inputs.map((from) => {
+        let result;
+        try {
+            result = Parser.from(from);
+        } catch (e) {
+            result = e;
+        }
+        return result;
+    });
+    // then
+    const expected = [
+        "books, categories", // 정상 처리
+        "books", // 정상처리
+        new TypeError("배열의 원소 타입은 문자형이어야 합니다"),
+        new TypeError("매개변수의 타입이 배열이나 문자 형태여야 합니다."),
+    ];
+
+    const isPass = results.every((result, i) => {
+        if (result instanceof TypeError) {
+            return result.message === expected[i].message;
+        } else {
+            return result === expected[i];
+        }
+    });
+
+    console.log(`from: ${isPass}`);
+}
+
+function valuesTest() {
+    // given
+    const inputs = [
+        [
+            ["Alice", "alice@gmail.com", 30],
+            ["Bob", "bob@gmail.com", 25],
+        ],
+        ["Alice", "alice@gmail.com", 30],
+        // 123,
+    ];
+
+    // when
+    const results = inputs.map((values) => {
+        let result;
+        try {
+            result = Parser.values(values);
+        } catch (e) {
+            result = e;
+        }
+        return result;
+    });
+    // then
+    const expected = [
+        "('Alice', 'alice@gmail.com', 30), ('Bob', 'bob@gmail.com', 25)",
+        "('Alice', 'alice@gmail.com', 30)",
+        // 123,
+    ]; // 정상처리
+
+    console.log(results);
+}
+
+function orderByTest() {
+    // given
+    const inputs = [
+        { cols: ["name", "age"], order: ["ASC", "DESC"] },
+        { cols: ["name", 123], order: ["ASC", "DESC"] },
+    ];
+    // when
+    const results = inputs.map((input) => {
+        let result;
+        try {
+            result = Parser.orderBy(input);
+        } catch (e) {
+            result = e;
+        }
+        return result;
+    });
+
+    // then
+    const expected = [
+        "ORDER BY `name` ASC, `age` DESC",
+        new TypeError("컬럼명은 모두 문자형이어야 함니다"),
+    ];
+
+    const isPass = results.every((result, i) => {
+        if (result instanceof TypeError) {
+            return result.message === expected[i].message;
+        } else {
+            return result === expected[i];
+        }
+    });
+
+    // console.log(results);
+    console.log(`orderBy: ${isPass}`);
+}
+
+// colsTest();
+// joinTest();
+// distinctTest();
+// intoTest();
+
+fromTest();
+// valuesTest();
+orderByTest();
