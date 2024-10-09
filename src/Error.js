@@ -7,4 +7,7 @@ export const ErrorMessage = {
         property: "join의 각 원소는 type, from, on 속성을 포함한 객체이어야 합니다.",
         type: "join의 type은 LEFT, RIGHT, SELF, INNER, OUTER, FULL 중 하나여야 합니다.",
     },
+    from: {},
+    values: "",
+    orderBy: "",
 };
