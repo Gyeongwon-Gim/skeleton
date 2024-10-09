@@ -105,9 +105,7 @@ class Parser {
 
     static groupBy(groupBy) {
         // 1. groupBy.cols 배열의 각 컬럼명을 백틱으로 이스케이프하고 콤마로 구분한다 ex) `category`, `author`
-        let cols = Array.isArray(groupBy.cols)
-            ? groupBy.cols.map((col) => `\`${col}\``).join(", ")
-            : `\`${groupBy.cols}\``;
+        let cols = Parser.cols(groupBy.cols);
 
         // 2. groupBy.having 문자열이 존재하면 HAVING 키워드와 함께 추가한다.
         let having = groupBy.having ? ` HAVING ${groupBy.having}` : "";
