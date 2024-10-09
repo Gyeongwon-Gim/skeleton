@@ -53,7 +53,7 @@ class Parser {
 			3. 문자열일 경우 그대로 리턴한다.
 		*/
         if (Array.isArray(from)) {
-            return from.join(", ");
+            return wrapBacktick(from.join(", "));
         } else {
             // 예외 처리
             throw new Error("from array must contain at least one table.");
@@ -70,7 +70,7 @@ class Parser {
         for (const { type, from, on } of join) {
             const joinStatement = [];
             joinStatement.push(`${type} JOIN`);
-            joinStatement.push(Parser.from(from));
+            joinStatement.push(Parser.from([from]));
             joinStatement.push(`ON ${wrapBacktickExpression(on)}`);
             result.push(joinStatement.join(" "));
         }

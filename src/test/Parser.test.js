@@ -33,7 +33,7 @@ function joinTest() {
     const results = Parser.join(join);
     // then
     const expected = `INNER JOIN \`orders\` ON \`customers\`.\`customer_id\` = \`orders\`.\`customer_id\`
-OUTTER JOIN \`orders_items\` ON \`orders\`.\`order_id\` = \`order_items\`.\`order_id\`
+OUTTER JOIN \`order_items\` ON \`orders\`.\`order_id\` = \`order_items\`.\`order_id\`
 FULL JOIN \`products\` ON \`order_items\`.\`product_id\` = \`products\`.\`product_id\``;
     console.log(`join : ${results === expected}`);
 }
