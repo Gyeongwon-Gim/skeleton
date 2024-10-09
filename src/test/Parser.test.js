@@ -147,7 +147,49 @@ function intoTest() {
     console.log(`into : ${isPass}`);
 }
 
-colsTest();
-joinTest();
-distinctTest();
-intoTest();
+function whereTest() {
+    // given
+    const inputs = [
+        "books.category_id = category.id AND books.price > 10",
+        "books.title LIKE Harry Potter",
+        12345
+    ];
+    
+    // when
+    const results = inputs.map((input) => {
+        let result;
+        try {
+            result = Parser.where(input);
+        } catch (e) {
+            result = e;
+        }
+        return result;
+    });
+
+    // then
+    const expected = [
+        "WHERE `books`.`category_id` = `category`.`id` AND `books`.`price` > 10",
+        "WHERE `books`.`title` LIKE 'Harry Potter'",
+        new TypeError(ErrorMessage.where)
+    ];
+
+    // 출력해서 확인
+    console.log("Results:", results);
+    console.log("Expected:", expected);
+
+    const isPass = results.every((result, i) => {
+        if (result instanceof TypeError) {
+            return result.toString() === expected[i].toString();
+        } else {
+            return result === expected[i];
+        }
+    });
+
+    console.log(`where : ${isPass}`);
+}
+
+whereTest();
+// colsTest();
+// joinTest();
+// distinctTest();
+// intoTest();
