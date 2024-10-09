@@ -6,9 +6,13 @@
 export function wrapBacktick(identifiers) {
     return identifiers
         .split(".")
-        .map((id) => `\`${id}\``)
+        .map((id) => {
+            if (Number.isNaN(+id)) return `\`${id}\``;
+            return id;
+        })
         .join(".");
 }
+
 
 /**
  * "books.category_id = category.id" -> "\`books\`.\`category_id\` = \`category\`.\`id\`"

@@ -26,6 +26,16 @@ class Parser {
 					ex) "name = l, age = 25"
 			3. 문자열일 경우 그대로 리턴한다.
 		*/
+        if (typeof set === "object") {
+            const setArray = Object.entries(set).map(([key, value]) => {
+                const escapeKey = wrapBacktick(key);
+                const excapeValue = typeof value === "string" ? `'${value}'` : value;
+                return `${escapeKey} = ${excapeValue}`;
+            });
+            return setArray.join(", ");
+        }
+        else if (typeof set == "string") return set;
+        else throw new Error("Check Input");
     }
 
     static values(values) {
@@ -114,9 +124,7 @@ class Parser {
 
     static groupBy(groupBy) {
         // 1. groupBy.cols 배열의 각 컬럼명을 백틱으로 이스케이프하고 콤마로 구분한다 ex) `category`, `author`
-        let cols = Array.isArray(groupBy.cols)
-            ? groupBy.cols.map((col) => `\`${col}\``).join(", ")
-            : `\`${groupBy.cols}\``;
+        let cols = Parser.cols(groupBy.cols);
 
         // 2. groupBy.having 문자열이 존재하면 HAVING 키워드와 함께 추가한다.
         let having = groupBy.having ? ` HAVING ${groupBy.having}` : "";
@@ -127,21 +135,29 @@ class Parser {
 
     static where(where) {
         // 식별자(컬럼명, 테이블명) 백틱으로 감싸기
-        return where ? `WHERE ${where}` : "";
+        return where ? `WHERE ${wrapBacktickExpression(where)}` : "";
     }
 
     static limit(limit) {
-        // 1. limit 값이 존재하면 LIMIT 구문을 반환하고, 없으면 빈 문자열을 반환합니다.
-        // limit 객체에는 base와 offset 값이 있을 수 있습니다.
-        if (limit) {
+        // 1. limit 값이 존재하는지 확인하고, 객체인지 확인
+        if (limit && typeof limit === 'object') {
             const { base, offset } = limit;
-            if (typeof base === "number" && typeof offset === "number") {
+
+            // 2. base가 숫자인지 확인
+            if (typeof base !== "number") {
+                throw new TypeError("base 값은 숫자여야 합니다.");
+            }
+
+            // 3. offset이 숫자일 경우와 없을 경우 처리
+            if (typeof offset === "number") {
                 return `LIMIT ${base}, ${offset}`;
-            } else if (typeof base === "number") {
+            } else {
                 return `LIMIT ${base}`;
             }
+        } else {
+            // limit가 존재하지 않거나 객체가 아닌 경우 에러 처리
+            throw new TypeError("limit는 객체여야 하며 base와 offset 값을 포함해야 합니다.");
         }
-        return ""; // limit가 없을 경우 빈 문자열 반환
     }
 }
 
