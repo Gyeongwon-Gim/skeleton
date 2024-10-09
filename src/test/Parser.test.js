@@ -230,9 +230,50 @@ function groupByTest() {
     console.log(`groupBy : ${isPass}`);
 }
 
+function limitTest() {
+    // given
+    const inputs = [
+        { base: 10, offset: 20 },  // 정상
+        { base: 5 },  // 정상
+        { base: "invalid", offset: 20 },  // base가 유효하지 않음
+        123  // 잘못된 형식
+    ];
+
+    // when
+    const results = inputs.map((limit) => {
+        let result;
+        try {
+            result = Parser.limit(limit);
+        } catch (e) {
+            result = e;
+        }
+        return result;
+    });
+
+    // then
+    const expected = [
+        "LIMIT 10, 20",  // 정상적인 출력
+        "LIMIT 5",  // 정상적인 출력
+        new TypeError("base 값은 숫자여야 합니다."),  // 에러 메시지
+        new TypeError("limit는 객체여야 하며 base와 offset 값을 포함해야 합니다.")  // 에러 메시지
+    ];
+
+    // 결과와 기대값 비교 및 출력
+    const isPass = results.every((result, i) => {
+        if (result instanceof TypeError) {
+            return result.message === expected[i].message;
+        } else {
+            return result === expected[i];
+        }
+    });
+
+    console.log(`limit : ${isPass}`);
+}
+
 whereTest();
 groupByTest();
-// colsTest();
-// joinTest();
-// distinctTest();
-// intoTest();
+limitTest();
+colsTest();
+joinTest();
+distinctTest();
+intoTest();
