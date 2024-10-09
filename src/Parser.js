@@ -1,7 +1,13 @@
 import { wrapBacktick, wrapBacktickExpression } from "./utils/backtick.js";
+import Validator from "./Validator.js";
+import { ErrorMessage } from "./Error.js";
 
 class Parser {
     static cols(cols) {
+        // 배열인지 확인
+        if (!Array.isArray(cols)) throw TypeError(ErrorMessage.cols);
+        // 배열의 원소가 string 타입인지 확인
+        if (!Validator.isArrayTypeof(cols, "string")) throw TypeError(ErrorMessage.cols);
         cols = cols.map((e) => wrapBacktick(e));
         const colsStr = cols.join(", ");
         return `(${colsStr})`;
