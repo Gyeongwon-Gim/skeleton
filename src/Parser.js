@@ -26,6 +26,16 @@ class Parser {
 					ex) "name = l, age = 25"
 			3. 문자열일 경우 그대로 리턴한다.
 		*/
+        if (typeof set === "object") {
+            const setArray = Object.entries(set).map(([key, value]) => {
+                const escapeKey = wrapBacktick(key);
+                const excapeValue = typeof value === "string" ? `'${value}'` : value;
+                return `${escapeKey} = ${excapeValue}`;
+            });
+            return setArray.join(", ");
+        }
+        else if (typeof set == "string") return set;
+        else throw new Error("Check Input");
     }
 
     static values(values) {
