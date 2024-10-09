@@ -68,6 +68,7 @@ class Parser {
     }
 
     static distinct(distinct) {
+        if (typeof distinct !== "boolean") throw TypeError(ErrorMessage.distinct);
         if (distinct) return "DISTINCT";
         else return "";
     }
