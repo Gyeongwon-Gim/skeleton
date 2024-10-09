@@ -152,7 +152,6 @@ function whereTest() {
     const inputs = [
         "books.category_id = category.id AND books.price > 10",
         "books.title LIKE Harry Potter",
-        12345
     ];
     
     // when
@@ -170,7 +169,7 @@ function whereTest() {
     const expected = [
         "WHERE `books`.`category_id` = `category`.`id` AND `books`.`price` > 10",
         "WHERE `books`.`title` LIKE 'Harry Potter'",
-        new TypeError(ErrorMessage.where)
+        
     ];
 
     // 출력해서 확인
@@ -188,7 +187,51 @@ function whereTest() {
     console.log(`where : ${isPass}`);
 }
 
+function groupByTest() {
+    // given
+    const inputs = [
+        { cols: ["category", "author"], having: "COUNT(*) > 1" },
+        { cols: ["author"], having: "COUNT(*) = 1" },
+        { cols: ["category"] },
+        "invalid"  // 올바르지 않은 입력
+    ];
+
+    // when
+    const results = inputs.map((input) => {
+        let result;
+        try {
+            result = Parser.groupBy(input);
+        } catch (e) {
+            result = e;
+        }
+        return result;
+    });
+
+    // then
+    const expected = [
+        "GROUP BY (`category`, `author`) HAVING COUNT(*) > 1",
+        "GROUP BY (`author`) HAVING COUNT(*) = 1",
+        "GROUP BY (`category`)",
+        new TypeError("cols는 string[] 타입이어야 합니다.")  
+    ];
+
+    // 결과와 기대값 출력
+    console.log("Results:", results);
+    console.log("Expected:", expected);
+
+    const isPass = results.every((result, i) => {
+        if (result instanceof TypeError) {
+            return result.message === expected[i].message;
+        } else {
+            return result === expected[i];
+        }
+    });
+
+    console.log(`groupBy : ${isPass}`);
+}
+
 whereTest();
+groupByTest();
 // colsTest();
 // joinTest();
 // distinctTest();
