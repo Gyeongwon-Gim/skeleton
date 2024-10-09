@@ -33,30 +33,67 @@ function colsTest() {
 
 function joinTest() {
     // given
-    const input = [
-        {
-            type: "INNER",
-            from: "orders",
-            on: "customers.customer_id = orders.customer_id",
-        },
-        {
-            type: "OUTTER",
-            from: "order_items",
-            on: "orders.order_id = order_items.order_id",
-        },
-        {
-            type: "FULL",
-            from: "products",
-            on: "order_items.product_id = products.product_id",
-        },
+    const inputs = [
+        [
+            {
+                type: "INNER",
+                from: "orders",
+                on: "customers.customer_id = orders.customer_id",
+            },
+            {
+                type: "OUTER",
+                from: "order_items",
+                on: "orders.order_id = order_items.order_id",
+            },
+            {
+                type: "FULL",
+                from: "products",
+                on: "order_items.product_id = products.product_id",
+            },
+        ],
+        [
+            {
+                type: "INNER",
+                from: "orders",
+            },
+        ],
+        [
+            {
+                type: "SOMTHING",
+                from: "orders",
+                on: "customers.customer_id = orders.customer_id",
+            },
+        ],
+        "JOIN",
     ];
     // when
-    const result = Parser.join(input);
+    const results = inputs.map((join) => {
+        let result;
+        try {
+            result = Parser.join(join);
+        } catch (e) {
+            result = e;
+        }
+        return result;
+    });
     // then
-    const expected = `INNER JOIN \`orders\` ON \`customers\`.\`customer_id\` = \`orders\`.\`customer_id\`
-OUTTER JOIN \`order_items\` ON \`orders\`.\`order_id\` = \`order_items\`.\`order_id\`
-FULL JOIN \`products\` ON \`order_items\`.\`product_id\` = \`products\`.\`product_id\``;
-    const isPass = result === expected;
+    const expected = [
+        `INNER JOIN \`orders\` ON \`customers\`.\`customer_id\` = \`orders\`.\`customer_id\`
+OUTER JOIN \`order_items\` ON \`orders\`.\`order_id\` = \`order_items\`.\`order_id\`
+FULL JOIN \`products\` ON \`order_items\`.\`product_id\` = \`products\`.\`product_id\``,
+        new TypeError(ErrorMessage.join.property),
+        new TypeError(ErrorMessage.join.type),
+        new TypeError(ErrorMessage.join.array),
+    ];
+
+    const isPass = results.every((result, i) => {
+        if (result instanceof TypeError) {
+            return result.message === expected[i].message;
+        } else {
+            return result === expected[i];
+        }
+    });
+
     console.log(`join : ${isPass}`);
 }
 

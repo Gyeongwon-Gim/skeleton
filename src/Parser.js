@@ -4,10 +4,10 @@ import { ErrorMessage } from "./Error.js";
 
 class Parser {
     static cols(cols) {
-        // 배열인지 확인
-        if (!Array.isArray(cols)) throw TypeError(ErrorMessage.cols);
-        // 배열의 원소가 string 타입인지 확인
-        if (!Validator.isArrayTypeof(cols, "string")) throw TypeError(ErrorMessage.cols);
+        // 배열이면서 원소가 string 타입인지 확인
+        const isValid = Array.isArray(cols) && Validator.isArrayTypeof(cols, "string");
+        if (!isValid) throw TypeError(ErrorMessage.cols);
+
         cols = cols.map((e) => wrapBacktick(e));
         const colsStr = cols.join(", ");
         return `(${colsStr})`;
@@ -74,6 +74,21 @@ class Parser {
     }
 
     static join(join) {
+        // 배열이면서 각각의 원소가 필수 속성을 모두 포함하고 있는지 확인
+        if (!Array.isArray(join)) throw TypeError(ErrorMessage.join.array);
+        if (
+            !join.every((e) => {
+                return (
+                    Object.prototype.hasOwnProperty.call(e, "type") &&
+                    Object.prototype.hasOwnProperty.call(e, "from") &&
+                    Object.prototype.hasOwnProperty.call(e, "on")
+                );
+            })
+        )
+            throw TypeError(ErrorMessage.join.property);
+        const joinTypes = ["LEFT", "RIGHT", "SELF", "INNER", "OUTER", "FULL"];
+        if (!join.every((e) => joinTypes.includes(e.type))) throw TypeError(ErrorMessage.join.type);
+
         let result = [];
         for (const { type, from, on } of join) {
             const joinStatement = [];
