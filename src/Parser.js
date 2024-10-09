@@ -14,7 +14,8 @@ class Parser {
     }
 
     static into(into) {
-        return into;
+        if (typeof into !== "string") throw TypeError(ErrorMessage.into);
+        return wrapBacktick(into);
     }
 
     static set(set) {
