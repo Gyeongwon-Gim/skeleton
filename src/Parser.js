@@ -116,7 +116,7 @@ class Parser {
 
     static where(where) {
         // 식별자(컬럼명, 테이블명) 백틱으로 감싸기
-        return where ? `WHERE ${where}` : "";
+        return where ? `WHERE ${wrapBacktickExpression(where)}` : "";
     }
 
     static limit(limit) {
