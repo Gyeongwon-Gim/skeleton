@@ -1,13 +1,34 @@
 import Parser from "../Parser.js";
+import { ErrorMessage } from "../Error.js";
 
 function colsTest() {
     // given
-    const cols = ["name", "age"];
+    const input = [["name", "age"], ["name", 123], "name"];
     // when
-    const results = Parser.cols(cols);
+    const results = input.map((cols) => {
+        let result;
+        try {
+            result = Parser.cols(cols);
+        } catch (e) {
+            result = e;
+        }
+        return result;
+    });
     // then
-    const expected = "(`name`, `age`)";
-    console.log(`cols : ${results === expected}`);
+    const expected = [
+        "(`name`, `age`)",
+        new TypeError(ErrorMessage.cols),
+        new TypeError(ErrorMessage.cols),
+    ];
+    const isPass = results.every((result, i) => {
+        if (result instanceof TypeError) {
+            return result.message === expected[i].message;
+        } else {
+            return result === expected[i];
+        }
+    });
+
+    console.log(`cols : ${isPass}`);
 }
 
 function joinTest() {
