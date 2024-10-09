@@ -62,12 +62,26 @@ FULL JOIN \`products\` ON \`order_items\`.\`product_id\` = \`products\`.\`produc
 
 function distinctTest() {
     // given
-    const inputs = [true, false];
+    const inputs = [true, false, "true"];
     // when
-    const results = inputs.map((input) => Parser.distinct(input));
+    const results = inputs.map((input) => {
+        let result;
+        try {
+            result = Parser.distinct(input);
+        } catch (e) {
+            result = e;
+        }
+        return result;
+    });
     // then
-    const expected = ["DISTINCT", ""];
-    const isPass = results.every((result, i) => result === expected[i]);
+    const expected = ["DISTINCT", "", new TypeError(ErrorMessage.distinct)];
+    const isPass = results.every((result, i) => {
+        if (result instanceof TypeError) {
+            return result.message === expected[i].message;
+        } else {
+            return result === expected[i];
+        }
+    });
     console.log(`distinct : ${isPass}`);
 }
 
