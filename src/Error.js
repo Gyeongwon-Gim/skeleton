@@ -1,13 +1,32 @@
 export const ErrorMessage = {
-    cols: "cols는 string[] 타입이어야 합니다.",
-    into: "into는 string 타입이어야 합니다.",
-    distinct: "distinct는 boolean 타입이어야 합니다.",
+    cols: "cols 는 string[] 타입이어야 합니다.",
+    into: "into 는 string 타입이어야 합니다.",
+    distinct: "distinct 는 boolean 타입이어야 합니다.",
     join: {
-        array: "join은 배열이어야 합니다.",
-        property: "join의 각 원소는 type, from, on 속성을 포함한 객체이어야 합니다.",
+        array: "join 은 배열이어야 합니다.",
+        property: "join배열의 각 원소는 type, from, on 속성을 갖는 객체이어야 합니다.",
         type: "join의 type은 LEFT, RIGHT, SELF, INNER, OUTER, FULL 중 하나여야 합니다.",
     },
-    from: {},
-    values: "",
-    orderBy: "",
+    values: {
+        twoDimensionArray: "values는 2차원 배열이어야 합니다.",
+        array: "value 는 배열이어야 합니다.",
+        type: "value 의 각 요소는 number, stirng, boolean, Date 타입 중 하나여야 합니다.",
+    },
+    from: "from은 string[] 타입이어야 합니다.",
+    orderBy: {
+        property: "orderBy는 cols, order 속성을 갖는 객체이어야 합니다.",
+        cols: "orderBy.cols 는 string[] | number[] 타입이어야 합니다.",
+        order: "orderBy.order 은 ('ASC'|'DESC')[] 타입이어야 합니다.",
+    },
+    groupBy: {
+        property: "groupBy cols, having 속성을 갖는 객체이어야 합니다.",
+        cols: "groupBy.cols 는 string[] 타입이어야 합니다.",
+        having: "groupBy.having 은 string 타입이어야 합니다.",
+    },
+    where: "where 은 string 타입이어야 합니다.",
+    limit: {
+        property: "limit 은 base, offset 속성을 갖는 객체이어야 합니다.",
+        base: "limit.base 는 number 타입이어야 합니다.",
+        offset: "limit.offset 은 number 타입이어야 합니다.",
+    },
 };
