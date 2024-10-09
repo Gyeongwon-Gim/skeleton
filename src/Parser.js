@@ -1,12 +1,9 @@
 import { wrapBacktick, wrapBacktickExpression } from "./utils/backtick.js";
 import Validator from "./Validator.js";
-import { ErrorMessage } from "./Error.js";
 
 class Parser {
     static cols(cols) {
-        // 배열이면서 원소가 string 타입인지 확인
-        const isValid = Array.isArray(cols) && Validator.isArrayTypeof(cols, "string");
-        if (!isValid) throw TypeError(ErrorMessage.cols);
+        Validator.checkCols(cols);
 
         cols = cols.map((e) => wrapBacktick(e));
         const colsStr = cols.join(", ");
@@ -14,7 +11,7 @@ class Parser {
     }
 
     static into(into) {
-        if (typeof into !== "string") throw TypeError(ErrorMessage.into);
+        Validator.checkInto(into);
         return wrapBacktick(into);
     }
 
@@ -68,29 +65,17 @@ class Parser {
     }
 
     static distinct(distinct) {
-        if (typeof distinct !== "boolean") throw TypeError(ErrorMessage.distinct);
+        Validator.checkDistinct(distinct);
+
         if (distinct) return "DISTINCT";
         else return "";
     }
 
-    static join(join) {
-        // 배열이면서 각각의 원소가 필수 속성을 모두 포함하고 있는지 확인
-        if (!Array.isArray(join)) throw TypeError(ErrorMessage.join.array);
-        if (
-            !join.every((e) => {
-                return (
-                    Object.prototype.hasOwnProperty.call(e, "type") &&
-                    Object.prototype.hasOwnProperty.call(e, "from") &&
-                    Object.prototype.hasOwnProperty.call(e, "on")
-                );
-            })
-        )
-            throw TypeError(ErrorMessage.join.property);
-        const joinTypes = ["LEFT", "RIGHT", "SELF", "INNER", "OUTER", "FULL"];
-        if (!join.every((e) => joinTypes.includes(e.type))) throw TypeError(ErrorMessage.join.type);
+    static join(joins) {
+        Validator.checkJoins(joins);
 
         let result = [];
-        for (const { type, from, on } of join) {
+        for (const { type, from, on } of joins) {
             const joinStatement = [];
             joinStatement.push(`${type} JOIN`);
             joinStatement.push(Parser.from([from]));
