@@ -16,16 +16,16 @@ class Parser {
     }
 
     static set(set) {
-        /*
-			1. 객체인지 문자열(서브쿼리)인지 확인한다.
-			2. 객체일 경우
-				ex) { name: "lee", age: 25 }
-				2-1. 각각의 속성을 "key = value" 꼴로 만들어 배열에 담는다.
-					ex) ["name = lee", "age = 25"]
-				2-2. 배열을 ", "로 구분한 문자열로 만든다.
-					ex) "name = l, age = 25"
-			3. 문자열일 경우 그대로 리턴한다.
-		*/
+        if (typeof set === "object") {
+            const setArray = Object.entries(set).map(([key, value]) => {
+                const escapeKey = wrapBacktick(key);
+                const excapeValue = typeof value === "string" ? `'${value}'` : value;
+                return `${escapeKey} = ${excapeValue}`;
+            });
+            return setArray.join(", ");
+        }
+        else if (typeof set == "string") return set;
+        else throw new Error("Check Input");
     }
 
     static values(values) {
@@ -34,12 +34,11 @@ class Parser {
         const rows = values.map((row) => {
             const rowString = row
                 .map((value) => {
-                    return typeof value === "string" ? `\`${value}\`` : value;
+                    return typeof value === "string" ? wrapBacktick(value) : value;
                 })
                 .join(", ");
-            return `${rowString}`;
+            return `(${rowString})`;
         });
-
         return rows.join(",");
     }
 
@@ -82,7 +81,7 @@ class Parser {
     static groupBy(groupBy) {
         Validator.checkGroupBy(groupBy);
         // 1. groupBy.cols 배열의 각 컬럼명을 백틱으로 이스케이프하고 콤마로 구분한다 ex) `category`, `author`
-        let cols = groupBy.cols.map((col) => `\`${col}\``).join(", ");
+        let cols = Parser.cols(groupBy.cols);
 
         // 2. groupBy.having 문자열이 존재하면 HAVING 키워드와 함께 추가한다.
         let having = groupBy.having ? ` HAVING ${groupBy.having}` : "";
@@ -94,21 +93,20 @@ class Parser {
     static where(where) {
         Validator.checkWhere(where);
         // 식별자(컬럼명, 테이블명) 백틱으로 감싸기
-        return where ? `WHERE ${where}` : "";
+        return where ? `WHERE ${wrapBacktickExpression(where)}` : "";
     }
 
     static limit(limit) {
         Validator.checkLimit(limit);
 
-        if (limit) {
-            const { base, offset } = limit;
-            if (typeof base === "number" && typeof offset === "number") {
-                return `LIMIT ${base}, ${offset}`;
-            } else if (typeof base === "number") {
-                return `LIMIT ${base}`;
-            }
+        const { base, offset } = limit;
+
+        // 3. offset이 숫자일 경우와 없을 경우 처리
+        if (typeof offset === "number" && !Number.isNaN(offset)) {
+            return `LIMIT ${base}, ${offset}`;
+        } else {
+            return `LIMIT ${base}`;
         }
-        return ""; // limit가 없을 경우 빈 문자열 반환
     }
 }
 
