@@ -14,9 +14,11 @@ export function select({ distinct, cols, from, where, groupBy, having, orderBy, 
 export function update({ from, set, where, orderBy, limit }) {
     from = Parser.from();
     set = Parser.set();
-    where = Parser.where();
-    orderBy = Parser.orderBy();
-    limit = Parser.limit();
+    where = where ? `WHERE ${Parser.where(where)}` : ''; // WHERE 구문은 선택 사항
+    orderBy = orderBy ? `ORDER BY ${Parser.orderBy(orderBy)}` : ''; // ORDER BY 선택 사항
+    limit = limit ? `LIMIT ${Parser.limit(limit)}` : ''; // LIMIT 선택 사항
+
+    return `UPDATE ${from} SET ${set} ${where} ${orderBy} ${limit}`.trim();
 }
 
 export function remove({ cols, from, values, where, limit, orderBy }) {
@@ -33,5 +35,7 @@ export function insert({ cols, from, values, where }) {
     cols = Parser.cols();
     from = Parser.from();
     values = Parser.values();
-    where = Parser.where();
+    where = where ? `WHERE ${Parser.where(where)}` : ''; // WHERE 구문은 선택 사항
+
+    return `INSERT INTO ${from} ${cols} VALUES ${values} ${where}`.trim();
 }

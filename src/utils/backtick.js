@@ -19,6 +19,7 @@ export function wrapBacktick(identifiers) {
  * @returns {string}
  */
 export function wrapBacktickExpression(expression) {
+
     const operators = /(=|>|<|>=|<=|!=|\+|-|\/|\bAND\b|\bOR\b|\|\||&&|\bLIKE\b|\bBETWEEN\b)/i;
     const stringLiteral = /['"].*['"]/; // 작은따옴표 또는 큰따옴표로 감싸진 문자열
     const asteriskInFunction = /\b\w+\(\s*\*\s*\)/; // 함수 안에 '*'가 있는 패턴 COUNT(*)
@@ -35,6 +36,7 @@ export function wrapBacktickExpression(expression) {
 
             // 토큰이 연산자인 경우 그대로 반환
             if (operators.test(token) || multiplyAsterisk.test(token)) {
+
                 return token;
             }
 
@@ -52,3 +54,4 @@ export function wrapBacktickExpression(expression) {
         })
         .join("");
 }
+
