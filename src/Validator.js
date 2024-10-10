@@ -102,9 +102,6 @@ class Validator extends TypeChecker {
     }
 
     static checkOrderBy(orderBy) {
-        if (!orderBy) {
-            return;
-        }
         // 1. orderBy 가 유효한 속성을 갖고 있는지 확인
         const hasValidProperty =
             Object.prototype.hasOwnProperty.call(orderBy, "cols") &&
@@ -147,18 +144,12 @@ class Validator extends TypeChecker {
     }
 
     static checkWhere(where) {
-        if (!where) {
-            return;
-        }
         // 1. where 이 string 타입인지 확인
         const isStringWhere = typeof where === "string";
         if (!isStringWhere) throw TypeError(ErrorMessage.where);
     }
 
     static checkLimit(limit) {
-        if (!limit) {
-            return;
-        }
         // 1. limit 이 유효한 속성을 갖고 있는지 확인
         const hasValidProperty =
             Object.prototype.hasOwnProperty.call(limit, "base") &&
