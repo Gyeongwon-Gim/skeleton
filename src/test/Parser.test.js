@@ -182,7 +182,7 @@ function whereTest() {
     // given
     const inputs = [
         "books.category_id = category.id AND books.price > 10",
-        "books.title LIKE Harry Potter",
+        "books.title LIKE 'Harry Potter'",
     ];
     
     // when
