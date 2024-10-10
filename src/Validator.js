@@ -1,6 +1,6 @@
 import { ErrorMessage } from "./Error.js";
 
-class Validator {
+class TypeChecker {
     /**
      * 배열의 원소가 어떤 타입인지 반환하는 함수
      * @param {any[]} arr
@@ -25,6 +25,12 @@ class Validator {
         return types.every((t) => t === type);
     }
 
+    static isObjectLiteral(obj) {
+        return obj && Object.getPrototypeOf(obj) === Object.prototype;
+    }
+}
+
+class Validator extends TypeChecker {
     static checkCols(cols) {
         // cols가 배열이면서 원소가 string 타입인지 확인
         const isArray = Array.isArray(cols);
@@ -156,6 +162,15 @@ class Validator {
         // 3. limit.offset 이 number 타입인지 확인
         const isNumberOffset = typeof limit.offset === "number" && !Number.isNaN(limit.offset);
         if (!isNumberOffset) throw TypeError(ErrorMessage.limit.offset);
+    }
+
+    static checkSet(set) {
+        // 1. 객체 리터럴 타입인지 확인
+        const isObjectLiteral = Validator.isObjectLiteral(set);
+        if (!isObjectLiteral) throw TypeError(ErrorMessage.set.object);
+        // 2. 프로퍼티가 존재하는지 확인
+        const hasProperty = Object.keys(set).length > 0;
+        if (!hasProperty) throw TypeError(ErrorMessage.set.property);
     }
 }
 

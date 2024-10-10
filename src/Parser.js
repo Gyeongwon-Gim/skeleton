@@ -16,16 +16,14 @@ class Parser {
     }
 
     static set(set) {
-        if (typeof set === "object") {
-            const setArray = Object.entries(set).map(([key, value]) => {
-                const escapeKey = wrapBacktick(key);
-                const excapeValue = typeof value === "string" ? `'${value}'` : value;
-                return `${escapeKey} = ${excapeValue}`;
-            });
-            return setArray.join(", ");
-        }
-        else if (typeof set == "string") return set;
-        else throw new Error("Check Input");
+        Validator.checkSet(set);
+
+        const setArray = Object.entries(set).map(([key, value]) => {
+            const escapeKey = wrapBacktick(key);
+            const excapeValue = typeof value === "string" ? `'${value}'` : value;
+            return `${escapeKey} = ${excapeValue}`;
+        });
+        return setArray.join(", ");
     }
 
     static values(values) {

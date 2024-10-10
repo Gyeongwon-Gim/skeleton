@@ -29,4 +29,8 @@ export const ErrorMessage = {
         base: "limit.base 는 number 타입이어야 합니다.",
         offset: "limit.offset 은 number 타입이어야 합니다.",
     },
+    set: {
+        object: "set은 객체 리터럴이어야 합니다.",
+        property: "set 객체는 하나 이상의 key-value 를 갖고 있어야 합니다.",
+    },
 };
