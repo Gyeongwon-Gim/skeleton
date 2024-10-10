@@ -345,10 +345,12 @@ function limitTest() {
     const expected = [
       "LIMIT 10, 20",  // 정상적인 출력
         "LIMIT 5",  // 정상적인 출력
-        new TypeError("base 값은 숫자여야 합니다."),  // 에러 메시지
-        new TypeError("limit는 객체여야 하며 base와 offset 값을 포함해야 합니다.")  // 에러 메시지
+        new TypeError(ErrorMessage.limit.base),  // base 값이 잘못된 경우
+        new TypeError(ErrorMessage.limit.property)  // 잘못된 limit 형식
     ];
-
+    // 출력해서 확인
+    console.log("Results:", results);
+    console.log("Expected:", expected);
     // 결과와 기대값 비교 및 출력
     const isPass = results.every((result, i) => {
         if (result instanceof TypeError) {
