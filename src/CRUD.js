@@ -1,22 +1,38 @@
+import { ErrorMessage } from "./Error.js";
 import Parser from "./Parser.js";
 
-export function select({ distinct, cols, from, where, groupBy, having, orderBy, limit }) {
-    distinct = Parser.distinct();
-    cols = Parser.cols();
-    from = Parser.from();
-    where = Parser.where();
-    groupBy = Parser.groupBy();
-    having = Parser.having();
-    orderBy = Parser.orderBy();
-    limit = Parser.limit();
+export function select({ distinct, cols, from, where, groupBy, having, orderBy, limit, join }) {
+    if (!Array.isArray(cols) || !Array.isArray(from)) throw TypeError(ErrorMessage.select.required);
+    distinct = distinct ? Parser.distinct(distinct) : "";
+    cols = Parser.cols(cols);
+    from = Parser.from(from);
+    join = join ? Parser.join(join) : "";
+    where = where ? Parser.where(where) : "";
+    groupBy = groupBy ? Parser.groupBy(groupBy) : "";
+    having = having ? Parser.having(having) : "";
+    orderBy = orderBy ? Parser.orderBy(orderBy) : "";
+    limit = limit ? Parser.limit(limit) : "";
+    /*
+        순서
+        1. distinct
+        2. cols
+        3. from
+        4. join
+        5. where
+        6. group by
+        7. having
+        8. order by
+        9. limit
+    */
+    return `SELECT ${[distinct, cols, from, join, where, groupBy, having, orderBy, limit].filter((e) => e).join(" ")}`;
 }
 
 export function update({ from, set, where, orderBy, limit }) {
     from = Parser.from();
     set = Parser.set();
-    where = where ? `WHERE ${Parser.where(where)}` : ''; // WHERE 구문은 선택 사항
-    orderBy = orderBy ? `ORDER BY ${Parser.orderBy(orderBy)}` : ''; // ORDER BY 선택 사항
-    limit = limit ? `LIMIT ${Parser.limit(limit)}` : ''; // LIMIT 선택 사항
+    where = where ? `WHERE ${Parser.where(where)}` : ""; // WHERE 구문은 선택 사항
+    orderBy = orderBy ? `ORDER BY ${Parser.orderBy(orderBy)}` : ""; // ORDER BY 선택 사항
+    limit = limit ? `LIMIT ${Parser.limit(limit)}` : ""; // LIMIT 선택 사항
 
     return `UPDATE ${from} SET ${set} ${where} ${orderBy} ${limit}`.trim();
 }
@@ -37,7 +53,7 @@ export function insert({ cols, from, values, where }) {
     cols = Parser.cols();
     from = Parser.from();
     values = Parser.values();
-    where = where ? `WHERE ${Parser.where(where)}` : ''; // WHERE 구문은 선택 사항
+    where = where ? `WHERE ${Parser.where(where)}` : ""; // WHERE 구문은 선택 사항
 
     return `INSERT INTO ${from} ${cols} VALUES ${values} ${where}`.trim();
 }
