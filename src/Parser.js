@@ -34,7 +34,7 @@ class Parser {
         const rows = values.map((row) => {
             const rowString = row
                 .map((value) => {
-                    return typeof value === "string" ? wrapBacktick(value) : value;
+                    return typeof value === "string" ? `'${value}'` : value;
                 })
                 .join(", ");
             return `(${rowString})`;
@@ -68,6 +68,10 @@ class Parser {
         return result.join("\n");
     }
     static orderBy(orderBy) {
+        // undefined 또는 null
+        if (!orderBy || !orderBy.cols || orderBy.cols.length === 0) {
+            return "";
+        }
         Validator.checkOrderBy(orderBy);
 
         const columnsWithOrder = orderBy.cols.map((col, index) => {
@@ -94,7 +98,9 @@ class Parser {
 
     static limit(limit) {
         Validator.checkLimit(limit);
-
+        if (!limit) {
+            return "";
+        }
         const { base, offset } = limit;
 
         // 3. offset이 숫자일 경우와 없을 경우 처리

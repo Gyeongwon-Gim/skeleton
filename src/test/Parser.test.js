@@ -220,7 +220,7 @@ function valuesTest() {
             ["Alice", "alice@gmail.com", 30],
             ["Bob", "bob@gmail.com", 25],
         ],
-        ["Alice", "alice@gmail.com", 30],
+        [["Alice", "alice@gmail.com", 30]],
         // 123,
     ];
 
@@ -268,7 +268,6 @@ function groupByTest() {
         "GROUP BY (`category`, `author`)",
         "GROUP BY (`author`)",
         "GROUP BY (`category`)",
-
         new TypeError(ErrorMessage.groupBy.property),
     ];
 
@@ -424,7 +423,6 @@ function setTest() {
             return result === expected[i];
         }
     });
-
     // 테스트 결과 출력
     console.log(`setTest: ${isPass}`);
 }
@@ -438,4 +436,4 @@ distinctTest();
 intoTest();
 havingTest();
 setTest();
-
+valueTest();
