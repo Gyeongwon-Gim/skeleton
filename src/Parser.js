@@ -32,7 +32,7 @@ class Parser {
         const rows = values.map((row) => {
             const rowString = row
                 .map((value) => {
-                    return typeof value === "string" ? wrapBacktick(value) : value;
+                    return typeof value === "string" ? `'${value}'` : value;
                 })
                 .join(", ");
             return `(${rowString})`;
