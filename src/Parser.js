@@ -78,14 +78,10 @@ class Parser {
 
     static groupBy(groupBy) {
         Validator.checkGroupBy(groupBy);
-        // 1. groupBy.cols 배열의 각 컬럼명을 백틱으로 이스케이프하고 콤마로 구분한다 ex) `category`, `author`
-        let cols = Parser.cols(groupBy.cols);
 
-        // 2. groupBy.having 문자열이 존재하면 HAVING 키워드와 함께 추가한다.
-        let having = groupBy.having ? ` HAVING ${groupBy.having}` : "";
+        const cols = Parser.cols(groupBy.cols);
 
-        // 3. 1번의 결과와 2번의 결과를 통해 문자열을 조합하여 반환한다. ex) GROUP BY `category`, `author` HAVING COUNT(*) > 1
-        return `GROUP BY ${cols}${having}`;
+        return `GROUP BY ${cols}`;
     }
 
     static where(where) {
@@ -105,6 +101,12 @@ class Parser {
         } else {
             return `LIMIT ${base}`;
         }
+    }
+
+    static having(having) {
+        Validator.checkHaving(having);
+
+        return where ? `HAVING ${wrapBacktickExpression(having)}` : "";
     }
 }
 
