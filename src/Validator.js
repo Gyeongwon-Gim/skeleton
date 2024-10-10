@@ -150,18 +150,27 @@ class Validator extends TypeChecker {
     }
 
     static checkLimit(limit) {
-        // 1. limit 이 유효한 속성을 갖고 있는지 확인
-        const hasValidProperty =
-            Object.prototype.hasOwnProperty.call(limit, "base") &&
-            Object.prototype.hasOwnProperty.call(limit, "offset") &&
-            Object.keys(limit).length === 2;
-        if (!hasValidProperty) throw TypeError(ErrorMessage.limit.property);
-        // 2. limit.base 가 number 타입인지 확인
+        // limit 객체가 base 속성을 갖는지 확인
+        const hasValidBaseProperty =
+            Object.prototype.hasOwnProperty.call(limit, "base");
+
+        if (!hasValidBaseProperty) {
+            throw TypeError(ErrorMessage.limit.property);
+        }
+
+        // limit.base 가 number 타입인지 확인
         const isNumberBase = typeof limit.base === "number" && !Number.isNaN(limit.base);
-        if (!isNumberBase) throw TypeError(ErrorMessage.limit.base);
-        // 3. limit.offset 이 number 타입인지 확인
-        const isNumberOffset = typeof limit.offset === "number" && !Number.isNaN(limit.offset);
-        if (!isNumberOffset) throw TypeError(ErrorMessage.limit.offset);
+        if (!isNumberBase) {
+            throw TypeError(ErrorMessage.limit.base);
+        }
+
+        // limit.offset 이 있을 경우에만 number 타입인지 확인
+        if (limit.offset !== undefined) {
+            const isNumberOffset = typeof limit.offset === "number" && !Number.isNaN(limit.offset);
+            if (!isNumberOffset) {
+                throw TypeError(ErrorMessage.limit.offset);
+            }
+        }
     }
 
     static checkSet(set) {
