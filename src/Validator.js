@@ -129,8 +129,7 @@ class Validator extends TypeChecker {
         // 1. groupBy가 유효한 속성을 갖고 있는지 확인
         const hasValidProperty =
             Object.prototype.hasOwnProperty.call(groupBy, "cols") &&
-            Object.prototype.hasOwnProperty.call(groupBy, "having") &&
-            Object.keys(groupBy).length === 2;
+            Object.keys(groupBy).length === 1;
         if (!hasValidProperty) throw TypeError(ErrorMessage.groupBy.property);
         // 2. groupBy.cols 가 배열인지 확인
         const colsIsArray = Array.isArray(groupBy.cols);
@@ -138,9 +137,6 @@ class Validator extends TypeChecker {
         // 3. groupBy.cols 배열의 원소가 전부 string 타입인지 확인
         const isStringCols = groupBy.cols.every((col) => typeof col === "string");
         if (!isStringCols) throw TypeError(ErrorMessage.groupBy.cols);
-        // 4. groupBy.having 이 string 타입인지 확인
-        const isStringHaving = typeof groupBy.having === "string";
-        if (!isStringHaving) throw TypeError(ErrorMessage.groupBy.having);
     }
 
     static checkWhere(where) {
@@ -171,6 +167,12 @@ class Validator extends TypeChecker {
         // 2. 프로퍼티가 존재하는지 확인
         const hasProperty = Object.keys(set).length > 0;
         if (!hasProperty) throw TypeError(ErrorMessage.set.property);
+    }
+
+    static checkHaving(having) {
+        // 1. having 이 string 타입인지 확인
+        const isStringHaving = typeof having === "string";
+        if (!isStringHaving) throw TypeError(ErrorMessage.having);
     }
 }
 
