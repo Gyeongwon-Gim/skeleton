@@ -126,21 +126,23 @@ class Validator extends TypeChecker {
     }
 
     static checkGroupBy(groupBy) {
-        // 1. groupBy가 유효한 속성을 갖고 있는지 확인
-        const hasValidProperty =
-            Object.prototype.hasOwnProperty.call(groupBy, "cols") &&
-            Object.prototype.hasOwnProperty.call(groupBy, "having") &&
-            Object.keys(groupBy).length === 2;
+        // 1. groupBy가 유효한 속성을 갖고 있는지 확인 (cols는 필수, having은 선택)
+        const hasValidProperty = Object.prototype.hasOwnProperty.call(groupBy, "cols");
         if (!hasValidProperty) throw TypeError(ErrorMessage.groupBy.property);
+
         // 2. groupBy.cols 가 배열인지 확인
         const colsIsArray = Array.isArray(groupBy.cols);
         if (!colsIsArray) throw TypeError(ErrorMessage.groupBy.cols);
+
         // 3. groupBy.cols 배열의 원소가 전부 string 타입인지 확인
         const isStringCols = groupBy.cols.every((col) => typeof col === "string");
         if (!isStringCols) throw TypeError(ErrorMessage.groupBy.cols);
-        // 4. groupBy.having 이 string 타입인지 확인
-        const isStringHaving = typeof groupBy.having === "string";
-        if (!isStringHaving) throw TypeError(ErrorMessage.groupBy.having);
+
+        // 4. having 절이 있을 경우에만 string 타입인지 확인 (having은 선택사항)
+        if (groupBy.having !== undefined) {
+            const isStringHaving = typeof groupBy.having === "string";
+            if (!isStringHaving) throw TypeError(ErrorMessage.groupBy.having);
+        }
     }
 
     static checkWhere(where) {
