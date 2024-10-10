@@ -3,7 +3,7 @@ import { ErrorMessage } from "../Error.js";
 
 function colsTest() {
     // given
-    const inputs = [["name", "age"], ["name", 123], "name"];
+    const inputs = [["name", "age"], ["name", 123], "name", []];
     // when
     const results = inputs.map((cols) => {
         let result;
@@ -19,6 +19,7 @@ function colsTest() {
         "(`name`, `age`)",
         new TypeError(ErrorMessage.cols),
         new TypeError(ErrorMessage.cols),
+        "*",
     ];
     const isPass = results.every((result, i) => {
         if (result instanceof TypeError) {
@@ -157,11 +158,11 @@ function fromTest() {
         try {
             result = Parser.from(from);
         } catch (e) {
-          result = e;
-      }
-      return result;
-  });
-  // then
+            result = e;
+        }
+        return result;
+    });
+    // then
     const expected = [
         "books, categories", // 정상 처리
         "books", // 정상처리
@@ -173,10 +174,10 @@ function fromTest() {
         if (result instanceof TypeError) {
             return result.message === expected[i].message;
         } else {
-          return result === expected[i];
+            return result === expected[i];
         }
     });
-      console.log(`from: ${isPass}`);
+    console.log(`from: ${isPass}`);
 }
 function whereTest() {
     // given
@@ -184,7 +185,7 @@ function whereTest() {
         "books.category_id = category.id AND books.price > 10",
         "books.title LIKE 'Harry Potter'",
     ];
-    
+
     // when
     const results = inputs.map((input) => {
         let result;
@@ -195,19 +196,18 @@ function whereTest() {
         }
         return result;
     });
-  
+
     // then
     const expected = [
         "WHERE `books`.`category_id` = `category`.`id` AND `books`.`price` > 10",
         "WHERE `books`.`title` LIKE 'Harry Potter'",
-        
     ];
 
     const isPass = results.every((result, i) => {
         if (result instanceof TypeError) {
             return result.toString() === expected[i].toString();
-       } else {
-        return result === expected[i];
+        } else {
+            return result === expected[i];
         }
     });
     console.log(`where: ${isPass}`);
@@ -230,7 +230,7 @@ function valuesTest() {
         try {
             result = Parser.values(values);
         } catch (e) {
-          result = e;
+            result = e;
         }
         return result;
     });
@@ -247,10 +247,10 @@ function valuesTest() {
 function groupByTest() {
     // given
     const inputs = [
-        { cols: ["category", "author"], having: "COUNT(*) > 1" },
-        { cols: ["author"], having: "COUNT(*) = 1" },
+        { cols: ["category", "author"] },
+        { cols: ["author"] },
         { cols: ["category"] },
-        "invalid"  // 올바르지 않은 입력
+        "invalid", // 올바르지 않은 입력
     ];
 
     // when
@@ -259,18 +259,20 @@ function groupByTest() {
         try {
             result = Parser.groupBy(input);
         } catch (e) {
-          result = e;
+            result = e;
         }
         return result;
     });
     // then
     const expected = [
-        "GROUP BY (`category`, `author`) HAVING COUNT(*) > 1",
-        "GROUP BY (`author`) HAVING COUNT(*) = 1",
+        "GROUP BY (`category`, `author`)",
+        "GROUP BY (`author`)",
         "GROUP BY (`category`)",
-        new TypeError(ErrorMessage.groupBy.property)  
+
+        new TypeError(ErrorMessage.groupBy.property),
     ];
 
+  
     const isPass = results.every((result, i) => {
         if (result instanceof TypeError) {
             return result.message === expected[i].message;
@@ -280,6 +282,38 @@ function groupByTest() {
     });
 
     console.log(`groupBy : ${isPass}`);
+}
+
+function havingTest() {
+    // given
+    const inputs = ["COUNT(*) > 1"];
+
+    // when
+    const results = inputs.map((input) => {
+        let result;
+        try {
+            result = Parser.having(input);
+        } catch (e) {
+            result = e;
+        }
+        return result;
+    });
+    // then
+    const expected = ["HAVING COUNT(*) > 1"];
+
+    // 결과와 기대값 출력
+    // console.log("Results:", results);
+    // console.log("Expected:", expected);
+
+    const isPass = results.every((result, i) => {
+        if (result instanceof TypeError) {
+            return result.message === expected[i].message;
+        } else {
+            return result === expected[i];
+        }
+    });
+
+    console.log(`having : ${isPass}`);
 }
 
 function orderByTest() {
@@ -293,34 +327,34 @@ function orderByTest() {
         let result;
         try {
             result = Parser.orderBy(input);
-         } catch (e) {
+        } catch (e) {
             result = e;
         }
         return result;
     });
     // then
     const expected = [
-       "ORDER BY `name` ASC, `age` DESC",
+        "ORDER BY `name` ASC, `age` DESC",
         new TypeError("컬럼명은 모두 문자형이어야 함니다"),
     ];
     const isPass = results.every((result, i) => {
-          if (result instanceof TypeError) {
-              return result.message === expected[i].message;
-          } else {
-              return result === expected[i];
-          }
-      });
-     // console.log(results);
+        if (result instanceof TypeError) {
+            return result.message === expected[i].message;
+        } else {
+            return result === expected[i];
+        }
+    });
+    // console.log(results);
     console.log(`orderBy: ${isPass}`);
 }
 
 function limitTest() {
     // given
     const inputs = [
-        { base: 10, offset: 20 },  // 정상
-        { base: 5 },  // 정상
-        { base: "invalid", offset: 20 },  // base가 유효하지 않음
-        123  // 잘못된 형식
+        { base: 10, offset: 20 }, // 정상
+        { base: 5 }, // 정상
+        { base: "invalid", offset: 20 }, // base가 유효하지 않음
+        123, // 잘못된 형식
     ];
 
     // when
@@ -328,7 +362,7 @@ function limitTest() {
         let result;
         try {
             result = Parser.limit(limit);
-         } catch (e) {
+        } catch (e) {
             result = e;
         }
         return result;
@@ -348,7 +382,7 @@ function limitTest() {
             return result === expected[i];
         }
     });
-      console.log(`limit : ${isPass}`);
+    console.log(`limit : ${isPass}`);
 }
 
 function setTest() {
@@ -402,4 +436,6 @@ colsTest();
 joinTest();
 distinctTest();
 intoTest();
+havingTest();
 setTest();
+
