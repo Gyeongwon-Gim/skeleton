@@ -182,7 +182,7 @@ function whereTest() {
     // given
     const inputs = [
         "books.category_id = category.id AND books.price > 10",
-        "books.title LIKE Harry Potter",
+        "books.title LIKE 'Harry Potter'",
     ];
     
     // when
@@ -202,10 +202,6 @@ function whereTest() {
         "WHERE `books`.`title` LIKE 'Harry Potter'",
         
     ];
-
-    // 출력해서 확인
-    console.log("Results:", results);
-    console.log("Expected:", expected);
 
     const isPass = results.every((result, i) => {
         if (result instanceof TypeError) {
@@ -272,12 +268,8 @@ function groupByTest() {
         "GROUP BY (`category`, `author`) HAVING COUNT(*) > 1",
         "GROUP BY (`author`) HAVING COUNT(*) = 1",
         "GROUP BY (`category`)",
-        new TypeError("cols는 string[] 타입이어야 합니다.")  
+        new TypeError(ErrorMessage.groupBy.property)  
     ];
-
-    // 결과와 기대값 출력
-    console.log("Results:", results);
-    console.log("Expected:", expected);
 
     const isPass = results.every((result, i) => {
         if (result instanceof TypeError) {
@@ -345,11 +337,10 @@ function limitTest() {
     const expected = [
       "LIMIT 10, 20",  // 정상적인 출력
         "LIMIT 5",  // 정상적인 출력
-        new TypeError("base 값은 숫자여야 합니다."),  // 에러 메시지
-        new TypeError("limit는 객체여야 하며 base와 offset 값을 포함해야 합니다.")  // 에러 메시지
+        new TypeError(ErrorMessage.limit.base),  // base 값이 잘못된 경우
+        new TypeError(ErrorMessage.limit.property)  // 잘못된 limit 형식
     ];
-
-    // 결과와 기대값 비교 및 출력
+    
     const isPass = results.every((result, i) => {
         if (result instanceof TypeError) {
             return result.message === expected[i].message;
@@ -360,6 +351,50 @@ function limitTest() {
       console.log(`limit : ${isPass}`);
 }
 
+function setTest() {
+    // given
+    const inputs = [
+        { name: "John", age: 25, active: true },  // 정상적인 객체 리터럴
+        {},                                        // 프로퍼티가 없는 객체 (에러 발생 예상)
+        "invalid",                                 // 객체 리터럴이 아닌 값 (에러 발생 예상)
+        { salary: 5000, position: "Manager" },    // 숫자와 문자열이 혼합된 객체
+        { invalidKey: null },                     // null 값이 포함된 객체 (정상 처리 예상)
+        new Map()                                 // 객체 리터럴이 아닌 값 (에러 발생 예상)
+    ];
+
+    // when
+    const results = inputs.map((set) => {
+        let result;
+        try {
+            result = Parser.set(set);
+        } catch (e) {
+            result = e;
+        }
+        return result;
+    });
+
+    // then
+    const expected = [
+        "`name` = 'John', `age` = 25, `active` = true",  // 정상 처리 예상
+        new TypeError(ErrorMessage.set.property),        // 프로퍼티가 없는 객체, 에러 발생
+        new TypeError(ErrorMessage.set.object),          // 객체 리터럴이 아닌 값, 에러 발생
+        "`salary` = 5000, `position` = 'Manager'",       // 정상 처리 예상
+        "`invalidKey` = null",                           // null 값 정상 처리 예상
+        new TypeError(ErrorMessage.set.object)           // Map 객체, 에러 발생
+    ];
+
+    const isPass = results.every((result, i) => {
+        if (result instanceof TypeError) {
+            return result.message === expected[i].message;
+        } else {
+            return result === expected[i];
+        }
+    });
+
+    // 테스트 결과 출력
+    console.log(`setTest: ${isPass}`);
+}
+
 whereTest();
 groupByTest();
 limitTest();
@@ -367,3 +402,4 @@ colsTest();
 joinTest();
 distinctTest();
 intoTest();
+setTest();
