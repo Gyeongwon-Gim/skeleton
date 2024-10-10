@@ -1,5 +1,5 @@
 export const ErrorMessage = {
-    cols: "cols 는 string[] 타입이어야 합니다.",
+    cols: "cols 는 string[] | [undefined] 타입이어야 합니다.",
     into: "into 는 string 타입이어야 합니다.",
     distinct: "distinct 는 boolean 타입이어야 합니다.",
     join: {
@@ -19,8 +19,8 @@ export const ErrorMessage = {
         order: "orderBy.order 은 ('ASC'|'DESC')[] 타입이어야 합니다.",
     },
     groupBy: {
-        property: "groupBy cols 속성을 갖는 객체이어야 합니다.",
-        cols: "groupBy.cols 는 string[] 타입이어야 합니다.",
+        property: "groupBy는 cols 속성을 갖는 객체이어야 합니다.",
+        cols: "groupBy.cols 는 string[] | [undefined] 타입이어야 합니다.",
     },
     having: "having 은 string 타입이어야 합니다.",
     where: "where 은 string 타입이어야 합니다.",
