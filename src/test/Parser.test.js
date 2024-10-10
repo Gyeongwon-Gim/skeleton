@@ -203,10 +203,6 @@ function whereTest() {
         
     ];
 
-    // 출력해서 확인
-    console.log("Results:", results);
-    console.log("Expected:", expected);
-
     const isPass = results.every((result, i) => {
         if (result instanceof TypeError) {
             return result.toString() === expected[i].toString();
@@ -348,10 +344,7 @@ function limitTest() {
         new TypeError(ErrorMessage.limit.base),  // base 값이 잘못된 경우
         new TypeError(ErrorMessage.limit.property)  // 잘못된 limit 형식
     ];
-    // 출력해서 확인
-    console.log("Results:", results);
-    console.log("Expected:", expected);
-    // 결과와 기대값 비교 및 출력
+    
     const isPass = results.every((result, i) => {
         if (result instanceof TypeError) {
             return result.message === expected[i].message;
