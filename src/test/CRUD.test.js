@@ -41,4 +41,28 @@ function removeTest() {
     console.log(`deleteTest: ${isPass}`);
 }
 
+function selectTest() {
+    // given
+    const inputs = [
+        {
+            cols: [],
+            from: ["books"],
+        },
+    ];
+    // when
+    const results = inputs.map((input) => select(input));
+    // then
+    const expected = ["SELECT * FROM `books`"];
+    const isPass = results.every((result, i) => {
+        if (result instanceof TypeError) {
+            return result.message === expected[i].message;
+        } else {
+            return result === expected[i];
+        }
+    });
+    console.log(results);
+    console.log(`select: ${isPass}`);
+}
+
+selectTest();
 removeTest();
