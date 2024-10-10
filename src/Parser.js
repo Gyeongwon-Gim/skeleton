@@ -4,10 +4,12 @@ import Validator from "./Validator.js";
 class Parser {
     static cols(cols) {
         Validator.checkCols(cols);
-
-        cols = cols.map((e) => wrapBacktick(e));
-        const colsStr = cols.join(", ");
-        return `(${colsStr})`;
+        if (cols.length === 0) return "*";
+        else {
+            cols = cols.map((e) => wrapBacktick(e));
+            const colsStr = cols.join(", ");
+            return `(${colsStr})`;
+        }
     }
 
     static into(into) {
@@ -106,7 +108,7 @@ class Parser {
     static having(having) {
         Validator.checkHaving(having);
 
-        return where ? `HAVING ${wrapBacktickExpression(having)}` : "";
+        return having ? `HAVING ${wrapBacktickExpression(having)}` : "";
     }
 }
 

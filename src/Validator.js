@@ -32,10 +32,11 @@ class TypeChecker {
 
 class Validator extends TypeChecker {
     static checkCols(cols) {
-        // cols가 배열이면서 원소가 string 타입인지 확인
+        // 1. cols가 배열인지 확인
         const isArray = Array.isArray(cols);
         if (!isArray) throw TypeError(ErrorMessage.cols);
-        const isStringArray = Validator.isArrayTypeof(cols, "string");
+        // 2. 배열의 원소가 있다면 string 타입 인지 확인
+        const isStringArray = cols.length === 0 || Validator.isArrayTypeof(cols, "string");
         if (!isStringArray) throw TypeError(ErrorMessage.cols);
     }
 
