@@ -138,11 +138,6 @@ class Validator extends TypeChecker {
         const isStringCols = groupBy.cols.every((col) => typeof col === "string");
         if (!isStringCols) throw TypeError(ErrorMessage.groupBy.cols);
 
-        // 4. having 절이 있을 경우에만 string 타입인지 확인 (having은 선택사항)
-        if (groupBy.having !== undefined) {
-            const isStringHaving = typeof groupBy.having === "string";
-            if (!isStringHaving) throw TypeError(ErrorMessage.groupBy.having);
-        }
     }
 
     static checkWhere(where) {
