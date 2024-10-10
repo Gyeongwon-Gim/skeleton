@@ -21,7 +21,7 @@ export function wrapBacktick(identifiers) {
 export function wrapBacktickExpression(expression) {
     const operators = /(=|>|<|>=|<=|!=|\+|-|\/|\bAND\b|\bOR\b|\|\||&&|\bLIKE\b|\bBETWEEN\b)/i;
     const stringLiteral = /['"].*['"]/; // 작은따옴표 또는 큰따옴표로 감싸진 문자열
-    const asteriskInFunction = /\b\w+\(\s*\*\s*\)/; // 함수 안에 '*'가 있는 패턴
+    const asteriskInFunction = /\b\w+\(\s*\*\s*\)/; // 함수 안에 '*'가 있는 패턴 COUNT(*)
     const multiplyAsterisk = /\*/; // 곱하기 연산자
 
     const tokens = expression.match(/(\w+\(\s*\*\s*\)|\*|['"].*['"]|[^\s]+|[\s]+)/g); // (함수 안의 * | 그냥 * | 따옴표로 감싸진 문자열 | 문자열 | 공백)을 기준으로 토큰화

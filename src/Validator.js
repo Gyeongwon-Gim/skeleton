@@ -21,7 +21,7 @@ class TypeChecker {
      * @returns {boolean}
      */
     static isArrayTypeof(arr, type) {
-        const types = Validator.arrayTypeof(arr);
+        const types = TypeChecker.arrayTypeof(arr);
         return types.every((t) => t === type);
     }
 
@@ -30,13 +30,13 @@ class TypeChecker {
     }
 }
 
-class Validator extends TypeChecker {
+class Validator {
     static checkCols(cols) {
         // 1. cols가 배열인지 확인
         const isArray = Array.isArray(cols);
         if (!isArray) throw TypeError(ErrorMessage.cols);
         // 2. 배열의 원소가 있다면 string 타입 인지 확인
-        const isStringArray = cols.length === 0 || Validator.isArrayTypeof(cols, "string");
+        const isStringArray = cols.length === 0 || TypeChecker.isArrayTypeof(cols, "string");
         if (!isStringArray) throw TypeError(ErrorMessage.cols);
     }
 
@@ -163,7 +163,7 @@ class Validator extends TypeChecker {
 
     static checkSet(set) {
         // 1. 객체 리터럴 타입인지 확인
-        const isObjectLiteral = Validator.isObjectLiteral(set);
+        const isObjectLiteral = TypeChecker.isObjectLiteral(set);
         if (!isObjectLiteral) throw TypeError(ErrorMessage.set.object);
         // 2. 프로퍼티가 존재하는지 확인
         const hasProperty = Object.keys(set).length > 0;
