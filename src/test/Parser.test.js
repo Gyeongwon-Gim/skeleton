@@ -268,12 +268,8 @@ function groupByTest() {
         "GROUP BY (`category`, `author`) HAVING COUNT(*) > 1",
         "GROUP BY (`author`) HAVING COUNT(*) = 1",
         "GROUP BY (`category`)",
-        new TypeError("cols는 string[] 타입이어야 합니다.")  
+        new TypeError(ErrorMessage.groupBy.property)  
     ];
-
-    // 결과와 기대값 출력
-    console.log("Results:", results);
-    console.log("Expected:", expected);
 
     const isPass = results.every((result, i) => {
         if (result instanceof TypeError) {
