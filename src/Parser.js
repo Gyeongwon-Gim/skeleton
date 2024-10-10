@@ -14,7 +14,7 @@ class Parser {
 
     static into(into) {
         Validator.checkInto(into);
-        return wrapBacktick(into);
+        return `INTO ${wrapBacktick(into)}`;
     }
 
     static set(set) {
@@ -25,7 +25,7 @@ class Parser {
             const excapeValue = typeof value === "string" ? `'${value}'` : value;
             return `${escapeKey} = ${excapeValue}`;
         });
-        return setArray.join(", ");
+        return `SET ${setArray.join(", ")}`;
     }
 
     static values(values) {
@@ -39,12 +39,12 @@ class Parser {
                 .join(", ");
             return `(${rowString})`;
         });
-        return rows.join(",");
+        return `VALUES ${rows.join(",")}`;
     }
 
     static from(from) {
         Validator.checkFrom(from);
-        return wrapBacktick(from.join(", "));
+        return `FROM ${wrapBacktick(from.join(", "))}`;
     }
 
     static distinct(distinct) {
