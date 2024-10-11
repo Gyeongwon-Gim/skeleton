@@ -106,6 +106,48 @@ function insertTest() {
     console.log(`insertTest: ${isPass}`);
 }
 
+function updateTest() {
+    // given
+    const inputs = [
+        {
+            from: ["users"], // 업데이트할 테이블
+            set: { name: "John", age: 28 }, // 수정할 필드와 값
+            where: "id = 1", // 조건
+            orderBy: { cols: ["name"], order: ["ASC"] }, // 정렬 조건
+            limit: { base: 1 } // 제한
+        },
+        {
+            from: ["products"], // 업데이트할 테이블
+            set: { price: 20 }, // 수정할 필드와 값
+            where: "product = 'Book'" // 조건
+        },
+    ];
+
+    // when
+    const results = inputs.map((input) => {
+        let result;
+        try {
+            result = update(input);
+        } catch (e) {
+            result = e;
+        }
+        return result;
+    });
+
+    // then
+    const expected = [
+        "UPDATE `users` SET `name` = 'John', `age` = 28 WHERE `id` = 1 ORDER BY `name` ASC LIMIT 1",
+        "UPDATE `products` SET `price` = 20 WHERE `product` = 'Book'"
+    ];
+
+    const isPass = results.every((result, i) => result === expected[i]);
+
+    console.log("results", results);
+    console.log("expected", expected);
+    console.log(`updateTest: ${isPass}`);
+}
+
 //selectTest();
 insertTest();
+updateTest();
 //removeTest();
