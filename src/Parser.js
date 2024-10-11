@@ -39,7 +39,7 @@ class Parser {
                 .join(", ");
             return `(${rowString})`;
         });
-        return `VALUES ${rows.join(",")}`;
+        return `VALUES ${rows.join(", ")}`;
     }
 
     static from(from) {
