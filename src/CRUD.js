@@ -1,8 +1,7 @@
-import { ErrorMessage } from "./Error.js";
+import { ErrorMessage } from "./consts/Error.js";
 import Parser from "./Parser.js";
 
 export function select({ distinct, cols, from, where, groupBy, having, orderBy, limit, join }) {
-    if (!Array.isArray(cols) || !Array.isArray(from)) throw TypeError(ErrorMessage.select.required);
     distinct = distinct ? Parser.distinct(distinct) : "";
     cols = Parser.cols(cols);
     from = Parser.from(from);
