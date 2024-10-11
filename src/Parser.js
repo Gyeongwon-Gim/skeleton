@@ -6,7 +6,7 @@ class Parser {
         Validator.checkCols(cols);
         if (cols.length === 0) return "*";
         else {
-            cols = cols.map((e) => wrapBacktick(e));
+            cols = cols.map((e) => wrapBacktickExpression(e));
             const colsStr = cols.join(", ");
             return `${colsStr}`;
         }
