@@ -42,11 +42,10 @@ export function remove({ from, where, orderBy, limit }) {
     // 필수
     from = Parser.from(from);
     // 선택
-    where = Parser.where(where);
-    orderBy = Parser.orderBy(orderBy);
-    limit = Parser.limit(limit);
-    // return `DELETE FROM ${from} ${where} ${orderBy} ${limit}`;
-    return `DELETE FROM ${from}${where}${orderBy}${limit}`;
+    where = where ? Parser.where(where) : "";
+    orderBy = orderBy ? Parser.orderBy(orderBy) : "";
+    limit = limit ? Parser.limit(limit) : "";
+    return `DELETE ${[from, where, orderBy, limit].filter((e) => e).join(" ")}`;
 }
 
 export function insert({ cols, from, values, where }) {

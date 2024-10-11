@@ -150,7 +150,7 @@ function intoTest() {
 
 function fromTest() {
     // given
-    const inputs = [["books", "categories"], "books", ["books", 123], 123];
+    const inputs = [["books", "categories"], ["books"], ["books", 123], 123, ["books", {}]];
 
     // when
     const results = inputs.map((from) => {
@@ -164,10 +164,11 @@ function fromTest() {
     });
     // then
     const expected = [
-        "books, categories", // 정상 처리
-        "books", // 정상처리
-        new TypeError("배열의 원소 타입은 문자형이어야 합니다"),
-        new TypeError("매개변수의 타입이 배열이나 문자 형태여야 합니다."),
+        "FROM `books`, `categories`", // 정상 처리
+        "FROM `books`", // 정상처리
+        new TypeError(ErrorMessage.from),
+        new TypeError(ErrorMessage.from),
+        new TypeError(ErrorMessage.from),
     ];
 
     const isPass = results.every((result, i) => {
@@ -177,6 +178,8 @@ function fromTest() {
             return result === expected[i];
         }
     });
+    console.log(results);
+    console.log(expected);
     console.log(`from: ${isPass}`);
 }
 function whereTest() {
@@ -221,7 +224,8 @@ function valuesTest() {
             ["Bob", "bob@gmail.com", 25],
         ],
         [["Alice", "alice@gmail.com", 30]],
-        // 123,
+        123,
+        [["Alice", {}, 30]],
     ];
 
     // when
@@ -238,8 +242,9 @@ function valuesTest() {
     const expected = [
         "('Alice', 'alice@gmail.com', 30), ('Bob', 'bob@gmail.com', 25)",
         "('Alice', 'alice@gmail.com', 30)",
-        // 123,
-    ]; // 정상처리
+        new TypeError(ErrorMessage.values.twoDimensionArray),
+        new TypeError(ErrorMessage.values.type),
+    ];
 
     console.log(results);
 }
@@ -271,7 +276,6 @@ function groupByTest() {
         new TypeError(ErrorMessage.groupBy.property),
     ];
 
-  
     const isPass = results.every((result, i) => {
         if (result instanceof TypeError) {
             return result.message === expected[i].message;
@@ -318,8 +322,11 @@ function havingTest() {
 function orderByTest() {
     // given
     const inputs = [
-        { cols: ["name", "age"], order: ["ASC", "DESC"] },
-        { cols: ["name", 123], order: ["ASC", "DESC"] },
+        { cols: ["name", "age"], order: ["ASC", "DESC"] }, // 정상 입력
+        { cols: ["name", 123], order: ["ASC", "DESC"] }, // 에러 입력 : cols에 숫자 포함
+        { cols: ["name", "age"], order: ["ASC", "UP"] }, // 에러 입력 : order에 잘못된 값 "UP"이포함
+        { cols: 123, order: ["ASC", "DESC"] }, // 에러 입력 : cols에 숫자형 입력
+        { cols: ["name"], order: ["DOWN"] }, // 에러 입력 : order에 잘못된 값 "DOWN" 입력
     ];
     // when
     const results = inputs.map((input) => {
@@ -334,7 +341,10 @@ function orderByTest() {
     // then
     const expected = [
         "ORDER BY `name` ASC, `age` DESC",
-        new TypeError("컬럼명은 모두 문자형이어야 함니다"),
+        new TypeError(ErrorMessage.orderBy.cols),
+        new TypeError(ErrorMessage.orderBy.order),
+        new TypeError(ErrorMessage.orderBy.property),
+        new TypeError(ErrorMessage.orderBy.order),
     ];
     const isPass = results.every((result, i) => {
         if (result instanceof TypeError) {
@@ -368,12 +378,12 @@ function limitTest() {
     });
     // then
     const expected = [
-      "LIMIT 10, 20",  // 정상적인 출력
-        "LIMIT 5",  // 정상적인 출력
-        new TypeError(ErrorMessage.limit.base),  // base 값이 잘못된 경우
-        new TypeError(ErrorMessage.limit.property)  // 잘못된 limit 형식
+        "LIMIT 10, 20", // 정상적인 출력
+        "LIMIT 5", // 정상적인 출력
+        new TypeError(ErrorMessage.limit.base), // base 값이 잘못된 경우
+        new TypeError(ErrorMessage.limit.property), // 잘못된 limit 형식
     ];
-    
+
     const isPass = results.every((result, i) => {
         if (result instanceof TypeError) {
             return result.message === expected[i].message;
@@ -387,12 +397,12 @@ function limitTest() {
 function setTest() {
     // given
     const inputs = [
-        { name: "John", age: 25, active: true },  // 정상적인 객체 리터럴
-        {},                                        // 프로퍼티가 없는 객체 (에러 발생 예상)
-        "invalid",                                 // 객체 리터럴이 아닌 값 (에러 발생 예상)
-        { salary: 5000, position: "Manager" },    // 숫자와 문자열이 혼합된 객체
-        { invalidKey: null },                     // null 값이 포함된 객체 (정상 처리 예상)
-        new Map()                                 // 객체 리터럴이 아닌 값 (에러 발생 예상)
+        { name: "John", age: 25, active: true }, // 정상적인 객체 리터럴
+        {}, // 프로퍼티가 없는 객체 (에러 발생 예상)
+        "invalid", // 객체 리터럴이 아닌 값 (에러 발생 예상)
+        { salary: 5000, position: "Manager" }, // 숫자와 문자열이 혼합된 객체
+        { invalidKey: null }, // null 값이 포함된 객체 (정상 처리 예상)
+        new Map(), // 객체 리터럴이 아닌 값 (에러 발생 예상)
     ];
 
     // when
@@ -408,12 +418,12 @@ function setTest() {
 
     // then
     const expected = [
-        "`name` = 'John', `age` = 25, `active` = true",  // 정상 처리 예상
-        new TypeError(ErrorMessage.set.property),        // 프로퍼티가 없는 객체, 에러 발생
-        new TypeError(ErrorMessage.set.object),          // 객체 리터럴이 아닌 값, 에러 발생
-        "`salary` = 5000, `position` = 'Manager'",       // 정상 처리 예상
-        "`invalidKey` = null",                           // null 값 정상 처리 예상
-        new TypeError(ErrorMessage.set.object)           // Map 객체, 에러 발생
+        "`name` = 'John', `age` = 25, `active` = true", // 정상 처리 예상
+        new TypeError(ErrorMessage.set.property), // 프로퍼티가 없는 객체, 에러 발생
+        new TypeError(ErrorMessage.set.object), // 객체 리터럴이 아닌 값, 에러 발생
+        "`salary` = 5000, `position` = 'Manager'", // 정상 처리 예상
+        "`invalidKey` = null", // null 값 정상 처리 예상
+        new TypeError(ErrorMessage.set.object), // Map 객체, 에러 발생
     ];
 
     const isPass = results.every((result, i) => {
@@ -427,13 +437,16 @@ function setTest() {
     console.log(`setTest: ${isPass}`);
 }
 
-whereTest();
-groupByTest();
-limitTest();
-colsTest();
-joinTest();
-distinctTest();
-intoTest();
-havingTest();
-setTest();
-valueTest();
+// whereTest();
+// groupByTest();
+// limitTest();
+// colsTest();
+// joinTest();
+// distinctTest();
+// intoTest();
+// havingTest();
+// setTest();
+
+// orderByTest();
+// valuesTest();
+fromTest();
