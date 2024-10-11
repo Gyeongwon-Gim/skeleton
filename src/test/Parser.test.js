@@ -1,5 +1,6 @@
 import Parser from "../Parser.js";
-import { ErrorMessage } from "../Error.js";
+import { ErrorMessage } from "../consts/Error.js";
+import { JOIN } from "../consts/Join.js";
 
 function colsTest() {
     // given
@@ -16,7 +17,7 @@ function colsTest() {
     });
     // then
     const expected = [
-        "(`name`, `age`)",
+        "`name`, `age`",
         new TypeError(ErrorMessage.cols),
         new TypeError(ErrorMessage.cols),
         "*",
@@ -37,24 +38,24 @@ function joinTest() {
     const inputs = [
         [
             {
-                type: "INNER",
+                type: JOIN.LEFT,
                 from: "orders",
                 on: "customers.customer_id = orders.customer_id",
             },
             {
-                type: "OUTER",
+                type: JOIN.RIGHT,
                 from: "order_items",
                 on: "orders.order_id = order_items.order_id",
             },
             {
-                type: "FULL",
+                type: JOIN.LEFT,
                 from: "products",
                 on: "order_items.product_id = products.product_id",
             },
         ],
         [
             {
-                type: "INNER",
+                type: JOIN.LEFT,
                 from: "orders",
             },
         ],
@@ -79,13 +80,15 @@ function joinTest() {
     });
     // then
     const expected = [
-        `INNER JOIN \`orders\` ON \`customers\`.\`customer_id\` = \`orders\`.\`customer_id\`
-OUTER JOIN \`order_items\` ON \`orders\`.\`order_id\` = \`order_items\`.\`order_id\`
-FULL JOIN \`products\` ON \`order_items\`.\`product_id\` = \`products\`.\`product_id\``,
+        `LEFT JOIN \`orders\` ON \`customers\`.\`customer_id\` = \`orders\`.\`customer_id\`
+RIGHT JOIN \`order_items\` ON \`orders\`.\`order_id\` = \`order_items\`.\`order_id\`
+LEFT JOIN \`products\` ON \`order_items\`.\`product_id\` = \`products\`.\`product_id\``,
         new TypeError(ErrorMessage.join.property),
         new TypeError(ErrorMessage.join.type),
         new TypeError(ErrorMessage.join.array),
     ];
+    // console.log("Results: ", results);
+    // console.log("Expected: ", expected);
 
     const isPass = results.every((result, i) => {
         if (result instanceof TypeError) {
@@ -271,7 +274,6 @@ function groupByTest() {
         new TypeError(ErrorMessage.groupBy.property),
     ];
 
-  
     const isPass = results.every((result, i) => {
         if (result instanceof TypeError) {
             return result.message === expected[i].message;
@@ -368,12 +370,12 @@ function limitTest() {
     });
     // then
     const expected = [
-      "LIMIT 10, 20",  // 정상적인 출력
-        "LIMIT 5",  // 정상적인 출력
-        new TypeError(ErrorMessage.limit.base),  // base 값이 잘못된 경우
-        new TypeError(ErrorMessage.limit.property)  // 잘못된 limit 형식
+        "LIMIT 10, 20", // 정상적인 출력
+        "LIMIT 5", // 정상적인 출력
+        new TypeError(ErrorMessage.limit.base), // base 값이 잘못된 경우
+        new TypeError(ErrorMessage.limit.property), // 잘못된 limit 형식
     ];
-    
+
     const isPass = results.every((result, i) => {
         if (result instanceof TypeError) {
             return result.message === expected[i].message;
@@ -387,12 +389,12 @@ function limitTest() {
 function setTest() {
     // given
     const inputs = [
-        { name: "John", age: 25, active: true },  // 정상적인 객체 리터럴
-        {},                                        // 프로퍼티가 없는 객체 (에러 발생 예상)
-        "invalid",                                 // 객체 리터럴이 아닌 값 (에러 발생 예상)
-        { salary: 5000, position: "Manager" },    // 숫자와 문자열이 혼합된 객체
-        { invalidKey: null },                     // null 값이 포함된 객체 (정상 처리 예상)
-        new Map()                                 // 객체 리터럴이 아닌 값 (에러 발생 예상)
+        { name: "John", age: 25, active: true }, // 정상적인 객체 리터럴
+        {}, // 프로퍼티가 없는 객체 (에러 발생 예상)
+        "invalid", // 객체 리터럴이 아닌 값 (에러 발생 예상)
+        { salary: 5000, position: "Manager" }, // 숫자와 문자열이 혼합된 객체
+        { invalidKey: null }, // null 값이 포함된 객체 (정상 처리 예상)
+        new Map(), // 객체 리터럴이 아닌 값 (에러 발생 예상)
     ];
 
     // when
@@ -408,12 +410,12 @@ function setTest() {
 
     // then
     const expected = [
-        "`name` = 'John', `age` = 25, `active` = true",  // 정상 처리 예상
-        new TypeError(ErrorMessage.set.property),        // 프로퍼티가 없는 객체, 에러 발생
-        new TypeError(ErrorMessage.set.object),          // 객체 리터럴이 아닌 값, 에러 발생
-        "`salary` = 5000, `position` = 'Manager'",       // 정상 처리 예상
-        "`invalidKey` = null",                           // null 값 정상 처리 예상
-        new TypeError(ErrorMessage.set.object)           // Map 객체, 에러 발생
+        "`name` = 'John', `age` = 25, `active` = true", // 정상 처리 예상
+        new TypeError(ErrorMessage.set.property), // 프로퍼티가 없는 객체, 에러 발생
+        new TypeError(ErrorMessage.set.object), // 객체 리터럴이 아닌 값, 에러 발생
+        "`salary` = 5000, `position` = 'Manager'", // 정상 처리 예상
+        "`invalidKey` = null", // null 값 정상 처리 예상
+        new TypeError(ErrorMessage.set.object), // Map 객체, 에러 발생
     ];
 
     const isPass = results.every((result, i) => {
@@ -436,4 +438,6 @@ distinctTest();
 intoTest();
 havingTest();
 setTest();
-valueTest();
+valuesTest();
+fromTest();
+orderByTest();
