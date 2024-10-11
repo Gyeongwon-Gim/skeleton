@@ -28,8 +28,8 @@ export function select({ distinct, cols, from, where, groupBy, having, orderBy, 
 }
 
 export function update({ from, set, where, orderBy, limit }) {
-    from = Parser.from();
-    set = Parser.set();
+    from = Parser.from(from);
+    set = Parser.set(set);
     where = where ? `${Parser.where(where)}` : ""; // WHERE 구문은 선택 사항
     orderBy = orderBy ? `${Parser.orderBy(orderBy)}` : ""; // ORDER BY 선택 사항
     limit = limit ? `${Parser.limit(limit)}` : ""; // LIMIT 선택 사항
@@ -49,11 +49,15 @@ export function remove({ from, where, orderBy, limit }) {
     return `DELETE FROM ${from}${where}${orderBy}${limit}`;
 }
 
-export function insert({ cols, from, values, where }) {
-    cols = Parser.cols();
-    from = Parser.from();
-    values = Parser.values();
-    where = where ? `${Parser.where(where)}` : ""; // WHERE 구문은 선택 사항
+export function insert({ cols, into, values, where }) {
+    if (!Array.isArray(cols) || cols.length === 0) {
+        throw new TypeError(ErrorMessage.cols);
+    }
 
-    return `INSERT INTO ${[cols, from, values, where].filter((e) => e).join(" ")}`
+    cols = Parser.cols(cols); // cols 인자를 올바르게 처리
+    into = Parser.into(into); // 테이블 이름 변환
+    values = Parser.values(values); // 값을 변환
+    where = where ? `${Parser.where(where)}` : ""; // WHERE 구문 선택 처리
+
+    return `INSERT ${into} ${cols} ${values} ${where}`.trim();
 }
