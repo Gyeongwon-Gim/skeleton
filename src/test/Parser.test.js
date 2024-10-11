@@ -153,7 +153,7 @@ function intoTest() {
 
 function fromTest() {
     // given
-    const inputs = [["books", "categories"], "books", ["books", 123], 123];
+    const inputs = [["books", "categories"], ["books"], ["books", 123], 123, ["books", {}]];
 
     // when
     const results = inputs.map((from) => {
@@ -167,10 +167,11 @@ function fromTest() {
     });
     // then
     const expected = [
-        "books, categories", // 정상 처리
-        "books", // 정상처리
-        new TypeError("배열의 원소 타입은 문자형이어야 합니다"),
-        new TypeError("매개변수의 타입이 배열이나 문자 형태여야 합니다."),
+        "FROM `books`, `categories`", // 정상 처리
+        "FROM `books`", // 정상처리
+        new TypeError(ErrorMessage.from),
+        new TypeError(ErrorMessage.from),
+        new TypeError(ErrorMessage.from),
     ];
 
     const isPass = results.every((result, i) => {
@@ -180,6 +181,8 @@ function fromTest() {
             return result === expected[i];
         }
     });
+    console.log(results);
+    console.log(expected);
     console.log(`from: ${isPass}`);
 }
 function whereTest() {
@@ -224,7 +227,8 @@ function valuesTest() {
             ["Bob", "bob@gmail.com", 25],
         ],
         [["Alice", "alice@gmail.com", 30]],
-        // 123,
+        123,
+        [["Alice", {}, 30]],
     ];
 
     // when
@@ -241,8 +245,9 @@ function valuesTest() {
     const expected = [
         "('Alice', 'alice@gmail.com', 30), ('Bob', 'bob@gmail.com', 25)",
         "('Alice', 'alice@gmail.com', 30)",
-        // 123,
-    ]; // 정상처리
+        new TypeError(ErrorMessage.values.twoDimensionArray),
+        new TypeError(ErrorMessage.values.type),
+    ];
 
     console.log(results);
 }
@@ -320,8 +325,11 @@ function havingTest() {
 function orderByTest() {
     // given
     const inputs = [
-        { cols: ["name", "age"], order: ["ASC", "DESC"] },
-        { cols: ["name", 123], order: ["ASC", "DESC"] },
+        { cols: ["name", "age"], order: ["ASC", "DESC"] }, // 정상 입력
+        { cols: ["name", 123], order: ["ASC", "DESC"] }, // 에러 입력 : cols에 숫자 포함
+        { cols: ["name", "age"], order: ["ASC", "UP"] }, // 에러 입력 : order에 잘못된 값 "UP"이포함
+        { cols: 123, order: ["ASC", "DESC"] }, // 에러 입력 : cols에 숫자형 입력
+        { cols: ["name"], order: ["DOWN"] }, // 에러 입력 : order에 잘못된 값 "DOWN" 입력
     ];
     // when
     const results = inputs.map((input) => {
@@ -336,7 +344,10 @@ function orderByTest() {
     // then
     const expected = [
         "ORDER BY `name` ASC, `age` DESC",
-        new TypeError("컬럼명은 모두 문자형이어야 함니다"),
+        new TypeError(ErrorMessage.orderBy.cols),
+        new TypeError(ErrorMessage.orderBy.order),
+        new TypeError(ErrorMessage.orderBy.property),
+        new TypeError(ErrorMessage.orderBy.order),
     ];
     const isPass = results.every((result, i) => {
         if (result instanceof TypeError) {
@@ -428,6 +439,7 @@ function setTest() {
     // 테스트 결과 출력
     console.log(`setTest: ${isPass}`);
 }
+
 
 whereTest();
 groupByTest();

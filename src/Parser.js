@@ -44,7 +44,9 @@ class Parser {
 
     static from(from) {
         Validator.checkFrom(from);
-        return `FROM ${wrapBacktick(from.join(", "))}`;
+        from = from.map((e) => wrapBacktick(e));
+        const fromStr = from.join(", ");
+        return `FROM ${fromStr}`;
     }
 
     static distinct(distinct) {
@@ -68,10 +70,6 @@ class Parser {
         return result.join("\n");
     }
     static orderBy(orderBy) {
-        // undefined 또는 null
-        if (!orderBy || !orderBy.cols || orderBy.cols.length === 0) {
-            return "";
-        }
         Validator.checkOrderBy(orderBy);
 
         const columnsWithOrder = orderBy.cols.map((col, index) => {

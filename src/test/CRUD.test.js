@@ -6,7 +6,7 @@ function removeTest() {
         {
             type: "delete",
             from: ["users"],
-            where: "age< 18",
+            where: "age < 18",
         },
         {
             type: "delete",
@@ -16,7 +16,7 @@ function removeTest() {
         {
             type: "delete",
             from: ["employees"],
-            where: "position = intern",
+            where: "position = 'intern'",
         },
     ];
     // when
@@ -33,12 +33,12 @@ function removeTest() {
     const expected = [
         "DELETE FROM `users` WHERE `age` < 18",
         "DELETE FROM `products` WHERE `price` < 10",
-        "DELETE FROM `employees` WHERE `position` = `intern`",
+        "DELETE FROM `employees` WHERE `position` = 'intern'",
     ];
     const isPass = results.every((result, i) => result === expected[i]);
     console.log("results", results);
     console.log("expected", expected);
-    console.log(`deleteTest: ${isPass}`);
+    console.log(`removeTest: ${isPass}`);
 }
 
 function selectTest() {
@@ -147,7 +147,8 @@ function updateTest() {
     console.log(`updateTest: ${isPass}`);
 }
 
+// selectTest();
+removeTest();
 //selectTest();
 insertTest();
 updateTest();
-//removeTest();
