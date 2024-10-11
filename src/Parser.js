@@ -61,7 +61,7 @@ class Parser {
         for (const { type, from, on } of joins) {
             const joinStatement = [];
             joinStatement.push(`${type} JOIN`);
-            joinStatement.push(Parser.from([from]));
+            joinStatement.push(wrapBacktick(from));
             joinStatement.push(`ON ${wrapBacktickExpression(on)}`);
             result.push(joinStatement.join(" "));
         }

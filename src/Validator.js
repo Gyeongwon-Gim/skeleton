@@ -1,4 +1,4 @@
-import { ErrorMessage } from "./Error.js";
+import { ErrorMessage } from "./consts/Error.js";
 
 class TypeChecker {
     /**
@@ -141,7 +141,6 @@ class Validator {
         // 3. groupBy.cols 배열의 원소가 전부 string 타입인지 확인
         const isStringCols = groupBy.cols.every((col) => typeof col === "string");
         if (!isStringCols) throw TypeError(ErrorMessage.groupBy.cols);
-
     }
 
     static checkWhere(where) {
@@ -152,8 +151,7 @@ class Validator {
 
     static checkLimit(limit) {
         // limit 객체가 base 속성을 갖는지 확인
-        const hasValidBaseProperty =
-            Object.prototype.hasOwnProperty.call(limit, "base");
+        const hasValidBaseProperty = Object.prototype.hasOwnProperty.call(limit, "base");
 
         if (!hasValidBaseProperty) {
             throw TypeError(ErrorMessage.limit.property);

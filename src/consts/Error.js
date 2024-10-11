@@ -5,7 +5,7 @@ export const ErrorMessage = {
     join: {
         array: "join 은 배열이어야 합니다.",
         property: "join배열의 각 원소는 type, from, on 속성을 갖는 객체이어야 합니다.",
-        type: "join의 type은 LEFT, RIGHT, SELF, INNER, OUTER, FULL 중 하나여야 합니다.",
+        type: "join의 type은 LEFT, RIGHT 중 하나여야 합니다.",
     },
     values: {
         twoDimensionArray: "values는 2차원 배열이어야 합니다.",
