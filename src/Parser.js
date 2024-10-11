@@ -8,7 +8,7 @@ class Parser {
         else {
             cols = cols.map((e) => wrapBacktick(e));
             const colsStr = cols.join(", ");
-            return `(${colsStr})`;
+            return `${colsStr}`;
         }
     }
 
@@ -39,7 +39,7 @@ class Parser {
                 .join(", ");
             return `(${rowString})`;
         });
-        return `VALUES ${rows.join(",")}`;
+        return `VALUES ${rows.join(", ")}`;
     }
 
     static from(from) {
@@ -63,7 +63,7 @@ class Parser {
         for (const { type, from, on } of joins) {
             const joinStatement = [];
             joinStatement.push(`${type} JOIN`);
-            joinStatement.push(Parser.from([from]));
+            joinStatement.push(wrapBacktick(from));
             joinStatement.push(`ON ${wrapBacktickExpression(on)}`);
             result.push(joinStatement.join(" "));
         }
@@ -74,7 +74,7 @@ class Parser {
 
         const columnsWithOrder = orderBy.cols.map((col, index) => {
             const order = orderBy.order[index];
-            return `\`${col}\` ${order}`;
+            return `${wrapBacktick(col)} ${order}`;
         });
 
         return `ORDER BY ${columnsWithOrder.join(", ")}`;
@@ -103,7 +103,7 @@ class Parser {
 
         // 3. offset이 숫자일 경우와 없을 경우 처리
         if (typeof offset === "number" && !Number.isNaN(offset)) {
-            return `LIMIT ${base}, ${offset}`;
+            return `LIMIT ${offset}, ${base}`;
         } else {
             return `LIMIT ${base}`;
         }

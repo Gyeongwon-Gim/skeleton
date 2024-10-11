@@ -1,5 +1,6 @@
 import Parser from "../Parser.js";
-import { ErrorMessage } from "../Error.js";
+import { ErrorMessage } from "../consts/Error.js";
+import { JOIN } from "../consts/Join.js";
 
 function colsTest() {
     // given
@@ -16,7 +17,7 @@ function colsTest() {
     });
     // then
     const expected = [
-        "(`name`, `age`)",
+        "`name`, `age`",
         new TypeError(ErrorMessage.cols),
         new TypeError(ErrorMessage.cols),
         "*",
@@ -37,24 +38,24 @@ function joinTest() {
     const inputs = [
         [
             {
-                type: "INNER",
+                type: JOIN.LEFT,
                 from: "orders",
                 on: "customers.customer_id = orders.customer_id",
             },
             {
-                type: "OUTER",
+                type: JOIN.RIGHT,
                 from: "order_items",
                 on: "orders.order_id = order_items.order_id",
             },
             {
-                type: "FULL",
+                type: JOIN.LEFT,
                 from: "products",
                 on: "order_items.product_id = products.product_id",
             },
         ],
         [
             {
-                type: "INNER",
+                type: JOIN.LEFT,
                 from: "orders",
             },
         ],
@@ -79,13 +80,15 @@ function joinTest() {
     });
     // then
     const expected = [
-        `INNER JOIN \`orders\` ON \`customers\`.\`customer_id\` = \`orders\`.\`customer_id\`
-OUTER JOIN \`order_items\` ON \`orders\`.\`order_id\` = \`order_items\`.\`order_id\`
-FULL JOIN \`products\` ON \`order_items\`.\`product_id\` = \`products\`.\`product_id\``,
+        `LEFT JOIN \`orders\` ON \`customers\`.\`customer_id\` = \`orders\`.\`customer_id\`
+RIGHT JOIN \`order_items\` ON \`orders\`.\`order_id\` = \`order_items\`.\`order_id\`
+LEFT JOIN \`products\` ON \`order_items\`.\`product_id\` = \`products\`.\`product_id\``,
         new TypeError(ErrorMessage.join.property),
         new TypeError(ErrorMessage.join.type),
         new TypeError(ErrorMessage.join.array),
     ];
+    // console.log("Results: ", results);
+    // console.log("Expected: ", expected);
 
     const isPass = results.every((result, i) => {
         if (result instanceof TypeError) {
@@ -437,16 +440,16 @@ function setTest() {
     console.log(`setTest: ${isPass}`);
 }
 
-// whereTest();
-// groupByTest();
-// limitTest();
-// colsTest();
-// joinTest();
-// distinctTest();
-// intoTest();
-// havingTest();
-// setTest();
 
-// orderByTest();
-// valuesTest();
+whereTest();
+groupByTest();
+limitTest();
+colsTest();
+joinTest();
+distinctTest();
+intoTest();
+havingTest();
+setTest();
+valuesTest();
 fromTest();
+orderByTest();
