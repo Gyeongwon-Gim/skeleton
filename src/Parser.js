@@ -76,7 +76,7 @@ class Parser {
 
         const columnsWithOrder = orderBy.cols.map((col, index) => {
             const order = orderBy.order[index];
-            return `\`${col}\` ${order}`;
+            return `${wrapBacktick(col)} ${order}`;
         });
 
         return `ORDER BY ${columnsWithOrder.join(", ")}`;
@@ -105,7 +105,7 @@ class Parser {
 
         // 3. offset이 숫자일 경우와 없을 경우 처리
         if (typeof offset === "number" && !Number.isNaN(offset)) {
-            return `LIMIT ${base}, ${offset}`;
+            return `LIMIT ${offset}, ${base}`;
         } else {
             return `LIMIT ${base}`;
         }
