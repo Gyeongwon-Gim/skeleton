@@ -8,7 +8,7 @@ class Parser {
         else {
             cols = cols.map((e) => wrapBacktick(e));
             const colsStr = cols.join(", ");
-            return `(${colsStr})`;
+            return `${colsStr}`;
         }
     }
 
