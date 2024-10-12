@@ -37,9 +37,10 @@ function removeTest() {
         "DELETE FROM `employees` WHERE `position` = 'intern'",
     ];
     const isPass = results.every((result, i) => result === expected[i]);
-    console.log("results", results);
-    console.log("expected", expected);
-    console.log(`removeTest: ${isPass}`);
+
+    // console.log("results", results);
+    // console.log("expected", expected);
+    console.log(`remove: ${isPass}`);
 }
 
 function selectTest() {
@@ -101,7 +102,7 @@ function selectTest() {
             },
         },
         {
-            cols: ["category_id", "COUNT(id)"],
+            cols: ["category_id", "COUNT(CONCAT(id, name))"],
             from: ["books"],
             groupBy: {
                 cols: ["category_id"],
@@ -120,7 +121,7 @@ function selectTest() {
         "SELECT `title`, `price` FROM `books` ORDER BY `title` ASC, `price` DESC",
         "SELECT * FROM `books` WHERE `title` = '어린왕자들' AND `price` > 10000 LIMIT 10",
         "SELECT * FROM `books` WHERE `title` = '어린왕자들' AND `price` > 10000 LIMIT 5, 10",
-        "SELECT `category_id`, COUNT(`id`) FROM `books` GROUP BY `category_id`",
+        "SELECT `category_id`, COUNT(CONCAT(`id`, `name`)) FROM `books` GROUP BY `category_id`",
     ];
     const isPass = results.every((result, i) => {
         if (result instanceof TypeError) {
@@ -129,7 +130,9 @@ function selectTest() {
             return result === expected[i];
         }
     });
-    console.log(results);
+
+    // console.log("results", results);
+    // console.log("expected", expected);
     console.log(`select: ${isPass}`);
 }
 
@@ -170,9 +173,9 @@ function insertTest() {
 
     const isPass = results.every((result, i) => result === expected[i]);
 
-    console.log("results", results);
-    console.log("expected", expected);
-    console.log(`insertTest: ${isPass}`);
+    // console.log("results", results);
+    // console.log("expected", expected);
+    console.log(`insert: ${isPass}`);
 }
 
 function updateTest() {
@@ -211,13 +214,12 @@ function updateTest() {
 
     const isPass = results.every((result, i) => result === expected[i]);
 
-    console.log("results", results);
-    console.log("expected", expected);
-    console.log(`updateTest: ${isPass}`);
+    // console.log("results", results);
+    // console.log("expected", expected);
+    console.log(`update: ${isPass}`);
 }
 
-// selectTest();
-removeTest();
 selectTest();
+removeTest();
 insertTest();
 updateTest();

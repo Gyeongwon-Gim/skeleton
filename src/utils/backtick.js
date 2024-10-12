@@ -13,7 +13,7 @@ export function wrapIdentifier(identifier) {
 
 export function recurseFuncBracket(func) {
     return func.replace(pattern.func, (match, p1) => {
-        return match.replace(p1, wrapBacktickExpression(p1));
+        return match.replace(p1, wrapBacktick(p1));
     });
 }
 /**
@@ -21,7 +21,7 @@ export function recurseFuncBracket(func) {
  * @param {string} expression
  * @returns {string}
  */
-export function wrapBacktickExpression(expression) {
+export function wrapBacktick(expression) {
     return expression.replace(
         /('\s*.*?\s*'|"\s*.*?\s*"|\bAND\b|\bOR\b|\bLIKE\b|\bBETWEEN\b|\w+\(\s*.*\s*\)|\d+|\w+\.\w+|\w+)/g,
         (match, p1) => {

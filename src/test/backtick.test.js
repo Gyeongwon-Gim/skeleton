@@ -1,4 +1,4 @@
-import { wrapIdentifier, wrapBacktickExpression, wrapCols } from "../utils/backtick.js";
+import { wrapIdentifier, wrapBacktick, wrapCols } from "../utils/backtick.js";
 
 function wrapIdentifierTest() {
     // given
@@ -19,7 +19,7 @@ function wrapIdentifierTest() {
     console.log(`wrapIdentifier : ${isPass}`);
 }
 
-function wrapBacktickExpressionTest() {
+function wrapBacktickTest() {
     // given
     const inputs = [
         "books.category_id = category.id AND books.price > 10",
@@ -28,7 +28,7 @@ function wrapBacktickExpressionTest() {
     ];
 
     // when
-    const results = inputs.map((input) => wrapBacktickExpression(input));
+    const results = inputs.map((input) => wrapBacktick(input));
 
     // then
     const expected = [
@@ -47,4 +47,4 @@ function wrapBacktickExpressionTest() {
 
 wrapIdentifierTest();
 wrapColsTest();
-wrapBacktickExpressionTest();
+wrapBacktickTest();
