@@ -105,7 +105,7 @@ class Parser {
         if (typeof offset === "number" && !Number.isNaN(offset)) {
             return `${offset}, ${base}`;
         } else {
-            return base;
+            return `${base}`;
         }
     }
 
