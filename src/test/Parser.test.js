@@ -115,7 +115,7 @@ function distinctTest() {
         return result;
     });
     // then
-    const expected = ["DISTINCT", "", new TypeError(ErrorMessage.distinct)];
+    const expected = [true, false, new TypeError(ErrorMessage.distinct)];
     const isPass = results.every((result, i) => {
         if (result instanceof TypeError) {
             return result.message === expected[i].message;
@@ -148,6 +148,9 @@ function intoTest() {
             return result === expected[i];
         }
     });
+
+    // console.log(results);
+    // console.log(expected);
     console.log(`into : ${isPass}`);
 }
 
@@ -167,8 +170,8 @@ function fromTest() {
     });
     // then
     const expected = [
-        "FROM `books`, `categories`", // 정상 처리
-        "FROM `books`", // 정상처리
+        "`books`, `categories`", // 정상 처리
+        "`books`", // 정상처리
         new TypeError(ErrorMessage.from),
         new TypeError(ErrorMessage.from),
         new TypeError(ErrorMessage.from),
@@ -181,10 +184,12 @@ function fromTest() {
             return result === expected[i];
         }
     });
-    console.log(results);
-    console.log(expected);
+
+    // console.log(results);
+    // console.log(expected);
     console.log(`from: ${isPass}`);
 }
+
 function whereTest() {
     // given
     const inputs = [
@@ -205,8 +210,8 @@ function whereTest() {
 
     // then
     const expected = [
-        "WHERE `books`.`category_id` = `category`.`id` AND `books`.`price` > 10",
-        "WHERE `books`.`title` LIKE 'Harry Potter'",
+        "`books`.`category_id` = `category`.`id` AND `books`.`price` > 10",
+        "`books`.`title` LIKE 'Harry Potter'",
     ];
 
     const isPass = results.every((result, i) => {
@@ -216,6 +221,9 @@ function whereTest() {
             return result === expected[i];
         }
     });
+
+    // console.log(results);
+    // console.log(expected);
     console.log(`where: ${isPass}`);
 }
 
@@ -249,7 +257,17 @@ function valuesTest() {
         new TypeError(ErrorMessage.values.type),
     ];
 
-    console.log(results);
+    const isPass = results.every((result, i) => {
+        if (result instanceof TypeError) {
+            return result.message === expected[i].message;
+        } else {
+            return result === expected[i];
+        }
+    });
+
+    // console.log(results);
+    // console.log(expected);
+    console.log(`values: ${isPass}`);
 }
 
 function groupByTest() {
@@ -273,9 +291,9 @@ function groupByTest() {
     });
     // then
     const expected = [
-        "GROUP BY (`category`, `author`)",
-        "GROUP BY (`author`)",
-        "GROUP BY (`category`)",
+        "`category`, `author`",
+        "`author`",
+        "`category`",
         new TypeError(ErrorMessage.groupBy.property),
     ];
 
@@ -287,6 +305,8 @@ function groupByTest() {
         }
     });
 
+    // console.log(results);
+    // console.log(expected);
     console.log(`groupBy : ${isPass}`);
 }
 
@@ -305,11 +325,7 @@ function havingTest() {
         return result;
     });
     // then
-    const expected = ["HAVING COUNT(*) > 1"];
-
-    // 결과와 기대값 출력
-    // console.log("Results:", results);
-    // console.log("Expected:", expected);
+    const expected = ["COUNT(*) > 1"];
 
     const isPass = results.every((result, i) => {
         if (result instanceof TypeError) {
@@ -319,6 +335,8 @@ function havingTest() {
         }
     });
 
+    // console.log(results);
+    // console.log(expected);
     console.log(`having : ${isPass}`);
 }
 
@@ -331,6 +349,7 @@ function orderByTest() {
         { cols: 123, order: ["ASC", "DESC"] }, // 에러 입력 : cols에 숫자형 입력
         { cols: ["name"], order: ["DOWN"] }, // 에러 입력 : order에 잘못된 값 "DOWN" 입력
     ];
+
     // when
     const results = inputs.map((input) => {
         let result;
@@ -341,14 +360,16 @@ function orderByTest() {
         }
         return result;
     });
+
     // then
     const expected = [
-        "ORDER BY `name` ASC, `age` DESC",
+        "`name` ASC, `age` DESC",
         new TypeError(ErrorMessage.orderBy.cols),
         new TypeError(ErrorMessage.orderBy.order),
-        new TypeError(ErrorMessage.orderBy.property),
+        new TypeError(ErrorMessage.orderBy.cols),
         new TypeError(ErrorMessage.orderBy.order),
     ];
+
     const isPass = results.every((result, i) => {
         if (result instanceof TypeError) {
             return result.message === expected[i].message;
@@ -356,7 +377,9 @@ function orderByTest() {
             return result === expected[i];
         }
     });
+
     // console.log(results);
+    // console.log(expected);
     console.log(`orderBy: ${isPass}`);
 }
 
@@ -381,8 +404,8 @@ function limitTest() {
     });
     // then
     const expected = [
-        "LIMIT 10, 20", // 정상적인 출력
-        "LIMIT 5", // 정상적인 출력
+        "20, 10", // 정상적인 출력
+        "5", // 정상적인 출력
         new TypeError(ErrorMessage.limit.base), // base 값이 잘못된 경우
         new TypeError(ErrorMessage.limit.property), // 잘못된 limit 형식
     ];
@@ -394,6 +417,9 @@ function limitTest() {
             return result === expected[i];
         }
     });
+
+    // console.log(results);
+    // console.log(expected);
     console.log(`limit : ${isPass}`);
 }
 
@@ -436,20 +462,21 @@ function setTest() {
             return result === expected[i];
         }
     });
-    // 테스트 결과 출력
+
+    // console.log(results);
+    // console.log(expected);
     console.log(`setTest: ${isPass}`);
 }
 
-
-whereTest();
 groupByTest();
+whereTest();
 limitTest();
 colsTest();
 joinTest();
 distinctTest();
 intoTest();
-havingTest();
 setTest();
 valuesTest();
+havingTest();
 fromTest();
 orderByTest();

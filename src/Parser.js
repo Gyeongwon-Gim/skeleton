@@ -1,4 +1,4 @@
-import { wrapBacktick, wrapBacktickExpression } from "./utils/backtick.js";
+import { wrapBacktick } from "./utils/backtick.js";
 import Validator from "./Validator.js";
 
 class Parser {
@@ -8,13 +8,13 @@ class Parser {
         else {
             cols = cols.map((e) => wrapBacktick(e));
             const colsStr = cols.join(", ");
-            return `${colsStr}`;
+            return colsStr;
         }
     }
 
     static into(into) {
         Validator.checkInto(into);
-        return `INTO ${wrapBacktick(into)}`;
+        return wrapBacktick(into);
     }
 
     static set(set) {
@@ -25,7 +25,7 @@ class Parser {
             const excapeValue = typeof value === "string" ? `'${value}'` : value;
             return `${escapeKey} = ${excapeValue}`;
         });
-        return `SET ${setArray.join(", ")}`;
+        return setArray.join(", ");
     }
 
     static values(values) {
@@ -39,21 +39,20 @@ class Parser {
                 .join(", ");
             return `(${rowString})`;
         });
-        return `VALUES ${rows.join(", ")}`;
+        return rows.join(", ");
     }
 
     static from(from) {
         Validator.checkFrom(from);
         from = from.map((e) => wrapBacktick(e));
         const fromStr = from.join(", ");
-        return `FROM ${fromStr}`;
+        return `${fromStr}`;
     }
 
     static distinct(distinct) {
         Validator.checkDistinct(distinct);
 
-        if (distinct) return "DISTINCT";
-        else return "";
+        return distinct;
     }
 
     static join(joins) {
@@ -64,11 +63,12 @@ class Parser {
             const joinStatement = [];
             joinStatement.push(`${type} JOIN`);
             joinStatement.push(wrapBacktick(from));
-            joinStatement.push(`ON ${wrapBacktickExpression(on)}`);
+            joinStatement.push(`ON ${wrapBacktick(on)}`);
             result.push(joinStatement.join(" "));
         }
         return result.join("\n");
     }
+
     static orderBy(orderBy) {
         Validator.checkOrderBy(orderBy);
 
@@ -77,7 +77,7 @@ class Parser {
             return `${wrapBacktick(col)} ${order}`;
         });
 
-        return `ORDER BY ${columnsWithOrder.join(", ")}`;
+        return columnsWithOrder.join(", ");
     }
 
     static groupBy(groupBy) {
@@ -85,13 +85,13 @@ class Parser {
 
         const cols = Parser.cols(groupBy.cols);
 
-        return `GROUP BY ${cols}`;
+        return `${cols}`;
     }
 
     static where(where) {
         Validator.checkWhere(where);
         // 식별자(컬럼명, 테이블명) 백틱으로 감싸기
-        return where ? `WHERE ${wrapBacktickExpression(where)}` : "";
+        return where ? wrapBacktick(where) : "";
     }
 
     static limit(limit) {
@@ -103,16 +103,16 @@ class Parser {
 
         // 3. offset이 숫자일 경우와 없을 경우 처리
         if (typeof offset === "number" && !Number.isNaN(offset)) {
-            return `LIMIT ${offset}, ${base}`;
+            return `${offset}, ${base}`;
         } else {
-            return `LIMIT ${base}`;
+            return `${base}`;
         }
     }
 
     static having(having) {
         Validator.checkHaving(having);
 
-        return having ? `HAVING ${wrapBacktickExpression(having)}` : "";
+        return having ? wrapBacktick(having) : "";
     }
 }
 
