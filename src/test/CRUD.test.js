@@ -107,6 +107,7 @@ function selectTest() {
             groupBy: {
                 cols: ["category_id"],
             },
+            having: "cnt >= 7",
         },
     ];
     // when
@@ -121,7 +122,7 @@ function selectTest() {
         "SELECT `title`, `price` FROM `books` ORDER BY `title` ASC, `price` DESC",
         "SELECT * FROM `books` WHERE `title` = '어린왕자들' AND `price` > 10000 LIMIT 10",
         "SELECT * FROM `books` WHERE `title` = '어린왕자들' AND `price` > 10000 LIMIT 5, 10",
-        "SELECT `category_id`, COUNT(CONCAT(`id`, `name`)) FROM `books` GROUP BY `category_id`",
+        "SELECT `category_id`, COUNT(CONCAT(`id`, `name`)) FROM `books` GROUP BY `category_id` HAVING `cnt` >= 7",
     ];
     const isPass = results.every((result, i) => {
         if (result instanceof TypeError) {
