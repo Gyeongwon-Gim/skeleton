@@ -1,4 +1,3 @@
-import { ErrorMessage } from "./consts/Error.js";
 import Parser from "./Parser.js";
 
 export function select({ distinct, cols, from, where, groupBy, having, orderBy, limit, join }) {
