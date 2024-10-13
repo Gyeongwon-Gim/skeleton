@@ -33,7 +33,7 @@ export function update({ from, set, where, orderBy, limit }) {
     orderBy = orderBy ? `${Parser.orderBy(orderBy)}` : ""; // ORDER BY 선택 사항
     limit = limit ? `${Parser.limit(limit)}` : ""; // LIMIT 선택 사항
 
-    return `UPDATE ${[from, set, where, orderBy, limit].filter((e) => e).join(" ")}`
+    return `UPDATE ${[from, set, where, orderBy, limit].filter((e) => e).join(" ")}`;
 }
 
 export function remove({ from, where, orderBy, limit }) {

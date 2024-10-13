@@ -4,7 +4,7 @@
     "description": "Node + JavaScript + Express + MySQL",
     "main": "index.js",
     "scripts": {
-        "test": "node src/test/Parser.test.js",
+        "test": "node src/test/CRUD.test.js",
         "lint": "eslint"
     },
     "author": "",

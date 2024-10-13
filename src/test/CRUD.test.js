@@ -72,14 +72,14 @@ function insertTest() {
             into: "users",
             values: [
                 ["John", 30, "john@example.com"],
-                ["Alice", 25, "alice@example.com"]
+                ["Alice", 25, "alice@example.com"],
             ],
         },
         {
             cols: ["product", "price"],
             into: "products",
             values: [["Book", 10]],
-        }
+        },
     ];
 
     // when
@@ -96,7 +96,7 @@ function insertTest() {
     // then
     const expected = [
         "INSERT INTO `users` (`name`, `age`, `email`) VALUES ('John', 30, 'john@example.com'), ('Alice', 25, 'alice@example.com')",
-        "INSERT INTO `products` (`product`, `price`) VALUES ('Book', 10)"
+        "INSERT INTO `products` (`product`, `price`) VALUES ('Book', 10)",
     ];
 
     const isPass = results.every((result, i) => result === expected[i]);
@@ -114,12 +114,12 @@ function updateTest() {
             set: { name: "John", age: 28 }, // 수정할 필드와 값
             where: "id = 1", // 조건
             orderBy: { cols: ["name"], order: ["ASC"] }, // 정렬 조건
-            limit: { base: 1 } // 제한
+            limit: { base: 1 }, // 제한
         },
         {
             from: ["products"], // 업데이트할 테이블
             set: { price: 20 }, // 수정할 필드와 값
-            where: "product = 'Book'" // 조건
+            where: "product = 'Book'", // 조건
         },
     ];
 
@@ -137,7 +137,7 @@ function updateTest() {
     // then
     const expected = [
         "UPDATE `users` SET `name` = 'John', `age` = 28 WHERE `id` = 1 ORDER BY `name` ASC LIMIT 1",
-        "UPDATE `products` SET `price` = 20 WHERE `product` = 'Book'"
+        "UPDATE `products` SET `price` = 20 WHERE `product` = 'Book'",
     ];
 
     const isPass = results.every((result, i) => result === expected[i]);
@@ -149,6 +149,5 @@ function updateTest() {
 
 // selectTest();
 removeTest();
-//selectTest();
-insertTest();
-updateTest();
+// insertTest();
+// updateTest();
