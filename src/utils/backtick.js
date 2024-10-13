@@ -1,7 +1,6 @@
 const pattern = {
     operators: /(\bAND\b|\bOR\b|\bLIKE\b|\bBETWEEN\b)/i,
-    selectExpr: /(\w+\.\w+|\w+)/g,
-    identifier: /(\w+)/g,
+    identifier: /(\w+\s*\w+)/g,
     digit: /\b\d+\b/,
     string: /('\s*.*?\s*'|"\s*.*?\s*")/,
     func: /\w+\((\s*.*\s*)\)/,
@@ -23,7 +22,7 @@ export function recurseFuncBracket(func) {
  */
 export function wrapBacktick(expression) {
     return expression.replace(
-        /('\s*.*?\s*'|"\s*.*?\s*"|\bAND\b|\bOR\b|\bLIKE\b|\bBETWEEN\b|\w+\(\s*.*\s*\)|\d+|\w+\.\w+|\w+)/g,
+        /('\s*.*?\s*'|"\s*.*?\s*"|\bAND\b|\bOR\b|\bLIKE\b|\bBETWEEN\b|\w+\(\s*.*\s*\)|\d+|\w+(\s*\w+|\.\w+))/g,
         (match, p1) => {
             if (pattern.string.test(p1)) return p1;
             else if (pattern.operators.test(p1)) return p1;
