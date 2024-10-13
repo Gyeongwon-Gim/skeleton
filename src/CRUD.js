@@ -50,6 +50,5 @@ export function insert({ cols, into, values, where }) {
     into = `INTO ${Parser.into(into)}`; // 테이블 이름 변환
     values = `VALUES ${Parser.values(values)}`; // 값을 변환
     cols = cols ? `(${Parser.cols(cols)})` : ""; // cols 인자를 올바르게 처리
-
     return `INSERT ${[into, cols, values].filter((e) => e).join(" ")}`;
 }
