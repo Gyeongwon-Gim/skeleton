@@ -1,4 +1,5 @@
 import { insert, remove, select, update } from "../CRUD.js";
+import { JOIN } from "../consts/Join.js";
 
 function removeTest() {
     //given
@@ -36,9 +37,10 @@ function removeTest() {
         "DELETE FROM `employees` WHERE `position` = 'intern'",
     ];
     const isPass = results.every((result, i) => result === expected[i]);
-    console.log("results", results);
-    console.log("expected", expected);
-    console.log(`removeTest: ${isPass}`);
+
+    // console.log("results", results);
+    // console.log("expected", expected);
+    console.log(`remove: ${isPass}`);
 }
 
 function selectTest() {
@@ -48,11 +50,80 @@ function selectTest() {
             cols: [],
             from: ["books"],
         },
+        {
+            cols: ["title", "price"],
+            from: ["books"],
+        },
+        {
+            cols: [],
+            from: ["books"],
+            where: "title = '어린왕자들' AND price > 10000",
+        },
+        {
+            cols: ["title", "price"],
+            from: ["books"],
+            distinct: true,
+        },
+        {
+            cols: ["categories.name"],
+            from: ["books"],
+            where: "books.id = 3",
+            join: [
+                {
+                    type: JOIN.LEFT,
+                    from: "categories",
+                    on: "books.category_id = categories.id",
+                },
+            ],
+        },
+        {
+            cols: ["title", "price"],
+            from: ["books"],
+            orderBy: {
+                cols: ["title", "price"],
+                order: ["ASC", "DESC"],
+            },
+        },
+        {
+            cols: [],
+            from: ["books"],
+            where: "title = '어린왕자들' AND price > 10000",
+            limit: {
+                base: 10,
+            },
+        },
+        {
+            cols: [],
+            from: ["books"],
+            where: "title = '어린왕자들' AND price > 10000",
+            limit: {
+                base: 10,
+                offset: 5,
+            },
+        },
+        {
+            cols: ["category_id", "COUNT(CONCAT(id, name))"],
+            from: ["books"],
+            groupBy: {
+                cols: ["category_id"],
+            },
+            having: "cnt >= 7",
+        },
     ];
     // when
     const results = inputs.map((input) => select(input));
     // then
-    const expected = ["SELECT * FROM `books`"];
+    const expected = [
+        "SELECT * FROM `books`",
+        "SELECT `title`, `price` FROM `books`",
+        "SELECT * FROM `books` WHERE `title` = '어린왕자들' AND `price` > 10000",
+        "SELECT DISTINCT `title`, `price` FROM `books`",
+        "SELECT `categories`.`name` FROM `books` LEFT JOIN `categories` ON `books`.`category_id` = `categories`.`id` WHERE `books`.`id` = 3",
+        "SELECT `title`, `price` FROM `books` ORDER BY `title` ASC, `price` DESC",
+        "SELECT * FROM `books` WHERE `title` = '어린왕자들' AND `price` > 10000 LIMIT 10",
+        "SELECT * FROM `books` WHERE `title` = '어린왕자들' AND `price` > 10000 LIMIT 5, 10",
+        "SELECT `category_id`, COUNT(CONCAT(`id`, `name`)) FROM `books` GROUP BY `category_id` HAVING `cnt` >= 7",
+    ];
     const isPass = results.every((result, i) => {
         if (result instanceof TypeError) {
             return result.message === expected[i].message;
@@ -60,7 +131,9 @@ function selectTest() {
             return result === expected[i];
         }
     });
-    console.log(results);
+
+    // console.log("results", results);
+    // console.log("expected", expected);
     console.log(`select: ${isPass}`);
 }
 
@@ -101,9 +174,9 @@ function insertTest() {
 
     const isPass = results.every((result, i) => result === expected[i]);
 
-    console.log("results", results);
-    console.log("expected", expected);
-    console.log(`insertTest: ${isPass}`);
+    // console.log("results", results);
+    // console.log("expected", expected);
+    console.log(`insert: ${isPass}`);
 }
 
 function updateTest() {
@@ -142,12 +215,12 @@ function updateTest() {
 
     const isPass = results.every((result, i) => result === expected[i]);
 
-    console.log("results", results);
-    console.log("expected", expected);
-    console.log(`updateTest: ${isPass}`);
+    // console.log("results", results);
+    // console.log("expected", expected);
+    console.log(`update: ${isPass}`);
 }
 
-// selectTest();
+selectTest();
 removeTest();
-// insertTest();
-// updateTest();
+insertTest();
+updateTest();

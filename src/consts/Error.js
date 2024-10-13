@@ -1,4 +1,5 @@
 export const ErrorMessage = {
+    type: "type은 SELECT, DELETE, INSERT, UPDATE 중 하나여야 합니다.",
     cols: "cols 는 string[] | [undefined] 타입이어야 합니다.",
     into: "into 는 string 타입이어야 합니다.",
     distinct: "distinct 는 boolean 타입이어야 합니다.",
