@@ -18,6 +18,4 @@ function literalize(sql) {
     }
 }
 
-export { TYPE } from "./consts/Type.js";
-export { JOIN } from "./consts/Join.js";
 export default { QueryExecutor, literalize };
