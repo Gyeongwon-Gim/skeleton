@@ -1,7 +1,7 @@
 const pattern = {
     operators: /(\bAND\b|\bOR\b|\bLIKE\b|\bBETWEEN\b)/i,
     reserved:
-        /(\bSELECT\b|\bDELETE\b|\bUPDATE\b|\bINSERT\b|\bFROM\b|\bWHERE\b|\bSET\b|\bVALUES\b|\bJOIN\b|\bORDER BY\b|\bLIMIT\b|\bINTO\b|\bHAVING\b|\bGROUP BY\b|\bDISTINCT\b|\bAS\b|\bINTERVAL\b|\bMONTH\b|\bDAY\b|\bYEAR\b|\bOFFSET\b)/i,
+        /(\bSELECT\b|\bDELETE\b|\bUPDATE\b|\bINSERT\b|\bFROM\b|\bWHERE\b|\bSET\b|\bVALUES\b|(LEFT|RIGHT)\sJOIN|JOIN)|\bORDER BY\b|\bLIMIT\b|\bINTO\b|\bHAVING\b|\bGROUP BY\b|\bDISTINCT\b|\bAS\b|\bINTERVAL\b|\bMONTH\b|\bDAY\b|\bYEAR\b|\bOFFSET\b|\bEXISTS\b|\bON\b|\bIN\b|\bASC\b|\bDESC\b)/i,
     identifier: /(\w+)/g,
     digit: /\b\d+\b/,
     string: /('\s*.*?\s*'|"\s*.*?\s*"|`\s*.*?\s*`)/,
@@ -24,7 +24,7 @@ export function recurseFuncBracket(func) {
  */
 export function wrapBacktick(expression) {
     return expression.replace(
-        /('\s*.*?\s*'|"\s*.*?\s*"|`\s*.*?\s*`|\w+\(\s*.*\s*\)|\d+|\w+)/g,
+        /('\s*.*?\s*'|"\s*.*?\s*"|`\s*.*?\s*`|\w+\(\s*.*\s*\)|\d+|(LEFT|RIGHT)\sJOIN|JOIN)|\w+)/g,
         (match, p1) => {
             if (pattern.string.test(p1)) return p1;
             else if (pattern.operators.test(p1)) return p1;
