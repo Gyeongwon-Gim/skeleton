@@ -1,11 +1,11 @@
-import { literalize } from "./skeleton.js";
+import skeleton from "./skeleton.js";
 
 class QueryExecutor {
     constructor(db) {
         this.db = db;
     }
     async query(sql) {
-        const queryString = literalize(sql);
+        const queryString = skeleton.literalize(sql);
         try {
             return await this.db.query(queryString);
         } catch (error) {
@@ -13,4 +13,4 @@ class QueryExecutor {
         }
     }
 }
-export default QueryExecutor
+export default QueryExecutor;

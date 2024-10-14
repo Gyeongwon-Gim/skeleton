@@ -49,6 +49,14 @@ export default [
             "@stylistic/implicit-arrow-linebreak": ["error", "beside"], // https://eslint.style/rules/js/implicit-arrow-linebreak
             "@stylistic/brace-style": ["error", "1tbs", { allowSingleLine: true }], // https://eslint.style/rules/js/brace-style
             "@stylistic/keyword-spacing": "error", // https://eslint.style/rules/js/keyword-spacing
+            "@stylistic/space-before-function-paren": [
+                "error",
+                {
+                    anonymous: "never",
+                    named: "never",
+                    asyncArrow: "always",
+                },
+            ],
         },
     },
 ];
