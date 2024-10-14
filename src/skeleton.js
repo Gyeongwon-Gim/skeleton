@@ -2,7 +2,6 @@ import { select, insert, remove, update } from "./CRUD.js";
 import { TYPE } from "./consts/Type.js";
 import { ErrorMessage } from "./consts/Error.js";
 import QueryExecutor from "./QueryExecutor.js";
-import { createDatabase } from "./dbConnection.js";
 
 function literalize(sql) {
     switch (sql.type) {
@@ -19,6 +18,4 @@ function literalize(sql) {
     }
 }
 
-export { TYPE } from "./consts/Type.js";
-export { JOIN } from "./consts/Join.js";
-export default { QueryExecutor, createDatabase, literalize };
+export default { QueryExecutor, literalize };

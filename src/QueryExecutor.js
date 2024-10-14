@@ -5,11 +5,11 @@ class QueryExecutor {
         this.db = db;
     }
     async query(sql) {
-        const queryString = skeleton.literalize(sql);
         try {
-            return await this.db.query(queryString);
+            const queryString = skeleton.literalize(sql);
+            return this.db.query(queryString);
         } catch (error) {
-            throw new Error(error);
+            console.error(error);
         }
     }
 }
