@@ -4,7 +4,13 @@ import { JOIN } from "../consts/Join.js";
 
 function colsTest() {
     // given
-    const inputs = [["name", "age"], ["name", 123], "name", []];
+    const inputs = [
+        ["name", "age"],
+        ["name", 123],
+        "name",
+        [],
+        ["*", "(SELECT COUNT(*) FROM `likes` WHERE `book_id` = `books`.`id`) AS likes"],
+    ];
     // when
     const results = inputs.map((cols) => {
         let result;
@@ -21,6 +27,7 @@ function colsTest() {
         new TypeError(ErrorMessage.cols),
         new TypeError(ErrorMessage.cols),
         "*",
+        "*, (SELECT COUNT(*) FROM `likes` WHERE `book_id` = `books`.`id`) AS `likes`",
     ];
     const isPass = results.every((result, i) => {
         if (result instanceof TypeError) {
