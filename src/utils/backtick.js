@@ -1,7 +1,7 @@
 const pattern = {
     operators: /(\bAND\b|\bOR\b|\bLIKE\b|\bBETWEEN\b)/i,
     reserved:
-        /(\bSELECT\b|\bDELETE\b|\bUPDATE\b|\bINSERT\b|\bFROM\b|\bWHERE\b|\bSET\b|\bVALUES\b|\bJOIN\b|\bORDER BY\b|\bLIMIT\b|\bINTO\b|\bHAVING\b|\bGROUP BY\b|\bDISTINCT\b|\bAS\b)/i,
+        /(\bSELECT\b|\bDELETE\b|\bUPDATE\b|\bINSERT\b|\bFROM\b|\bWHERE\b|\bSET\b|\bVALUES\b|\bJOIN\b|\bORDER BY\b|\bLIMIT\b|\bINTO\b|\bHAVING\b|\bGROUP BY\b|\bDISTINCT\b|\bAS\b|\bINTERVAL\b|\bMONTH\b|\bDAY\b|\bYEAR\b|\bOFFSET\b)/i,
     identifier: /(\w+)/g,
     digit: /\b\d+\b/,
     string: /('\s*.*?\s*'|"\s*.*?\s*"|`\s*.*?\s*`)/,
