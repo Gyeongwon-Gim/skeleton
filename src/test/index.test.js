@@ -1,4 +1,4 @@
-import skeleton, { TYPE, JOIN } from "../skeleton.js";
+import skeleton, { TYPE } from "../skeleton.js";
 import express from "express";
 import mysql from "mysql2/promise";
 
@@ -9,6 +9,7 @@ const conn = await mysql.createConnection({
     database: "BookStore",
     dateStrings: true,
 });
+
 const mariadb = new skeleton.QueryExecutor(conn);
 
 const app = express();
