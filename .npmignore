@@ -1,0 +1,9 @@
+node_modules
+.env
+.vscode
+.git
+src/test
+.prettierrc
+.npmignore
+.gitignore
+eslint.config.mjs

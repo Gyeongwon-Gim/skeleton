@@ -1,18 +1,22 @@
 {
-    "name": "skeleton",
-    "version": "1.0.0",
-    "description": "Node + JavaScript + Express + MySQL",
+    "name": "devcourse_skeleton",
+    "version": "0.0.1",
+    "description": "Express + MySQL",
     "main": "index.js",
     "scripts": {
         "test": "node src/test/CRUD.test.js",
         "lint": "eslint"
     },
     "author": "",
-    "license": "ISC",
+    "license": "MIT",
     "dependencies": {
         "express": "^4.21.0",
         "mysql2": "^3.11.3"
     },
+    "keywords": [
+        "Express",
+        "MySQL"
+    ],
     "devDependencies": {
         "@babel/eslint-parser": "^7.25.7",
         "@babel/preset-env": "^7.25.7",

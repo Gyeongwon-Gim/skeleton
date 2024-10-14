@@ -13,4 +13,4 @@ class QueryExecutor {
         }
     }
 }
-export default QueryExecutor
+export default QueryExecutor;

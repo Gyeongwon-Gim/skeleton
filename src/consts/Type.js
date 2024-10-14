@@ -1,4 +1,4 @@
-export const type = {
+export const TYPE = {
     SELECT: "SELECT",
     DELETE: "DELETE",
     INSERT: "INSERT",

@@ -1,18 +1,22 @@
 import { select, insert, remove, update } from "./CRUD.js";
-import { type } from "./consts/Type.js";
+import { TYPE } from "./consts/Type.js";
 import { ErrorMessage } from "./consts/Error.js";
+import QueryExecutor from "./src/QueryExecutor";
+import { createDatabase } from "./dbConnection.js";
 
 function literalize(sql) {
     switch (sql.type) {
-        case type.SELECT:
+        case TYPE.SELECT:
             return select(sql);
-        case type.INSERT:
+        case TYPE.INSERT:
             return insert(sql);
-        case type.DELETE:
+        case TYPE.DELETE:
             return remove(sql);
-        case type.UPDATE:
+        case TYPE.UPDATE:
             return update(sql);
         default:
             throw TypeError(ErrorMessage.type);
     }
 }
+
+export default { QueryExecutor, createDatabase, literalize };
