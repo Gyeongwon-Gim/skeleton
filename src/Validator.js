@@ -1,4 +1,5 @@
 import { ErrorMessage } from "./consts/Error.js";
+import { JOIN } from "./consts/Join.js";
 
 class TypeChecker {
     /**
@@ -66,11 +67,13 @@ class Validator {
             Object.prototype.hasOwnProperty.call(join, "from") &&
             Object.prototype.hasOwnProperty.call(join, "on") &&
             Object.keys(join).length === 3;
-        const validJoinTypes = ["LEFT", "RIGHT", "SELF", "INNER", "OUTER", "FULL"];
-        const isValidJoinType = validJoinTypes.includes(join.type);
+
+        const isValidJoinType = Object.prototype.hasOwnProperty.call(JOIN, join.type);
+        const isValidJoinFrom = typeof join.from === "string";
 
         if (!hasValidProperty) throw TypeError(ErrorMessage.join.property);
         if (!isValidJoinType) throw TypeError(ErrorMessage.join.type);
+        if (!isValidJoinFrom) throw TypeError(ErrorMessage.join.from);
     }
 
     /**
