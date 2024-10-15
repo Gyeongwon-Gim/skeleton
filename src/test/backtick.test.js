@@ -28,6 +28,7 @@ function wrapBacktickTest() {
         "`my name`.`first name`.`last name`",
         "COUNT(*)",
         "(SELECT COUNT(*) FROM `likes` WHERE `book_id` = `books`.`id`) AS likes",
+        "LEFT JOIN categories ON books.category_id = categories.category_id",
     ];
 
     // when
@@ -41,6 +42,7 @@ function wrapBacktickTest() {
         "`my name`.`first name`.`last name`",
         "COUNT(*)",
         "(SELECT COUNT(*) FROM `likes` WHERE `book_id` = `books`.`id`) AS `likes`",
+        "LEFT JOIN `categories` ON `books`.`category_id` = `categories`.`category_id`",
     ];
 
     // 결과와 기대값 출력
