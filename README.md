@@ -36,12 +36,15 @@ Notion
 ## 패키지 구조
 
 ```
- my_npm_module/
-├── dist/
-├── examples/
+ devcourse_skeleton/
 ├── lib/
-├── .gitignore
-├── .npmignore
+│    ├── constants
+│    ├── utils
+│    ├── crud.js
+│    ├── Parser.js
+│    ├── QueryExecutor.js
+│    ├── skeleton.js
+│    └── index.js
 ├── LICENSE
 └── package.json
 ```

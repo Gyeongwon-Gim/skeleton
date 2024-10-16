@@ -1,4 +1,4 @@
-import skeleton, { TYPE } from "../../index.js";
+import skeleton, { TYPE } from "../lib/index.js";
 import express from "express";
 import mysql from "mysql2/promise";
 

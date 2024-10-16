@@ -1,6 +1,6 @@
-import Parser from "../Parser.js";
-import { ErrorMessage } from "../consts/Error.js";
-import { JOIN } from "../consts/Join.js";
+import Parser from "../lib/Parser.js";
+import ERROR_MESSAGE from "../lib/constants/ERROR_MESSAGE.js";
+import JOIN from "../lib/constants/JOIN.js";
 
 function colsTest() {
     // given
@@ -24,8 +24,8 @@ function colsTest() {
     // then
     const expected = [
         "`name`, `age`",
-        new TypeError(ErrorMessage.cols),
-        new TypeError(ErrorMessage.cols),
+        new TypeError(ERROR_MESSAGE.COLS),
+        new TypeError(ERROR_MESSAGE.COLS),
         "*",
         "*, (SELECT COUNT(*) FROM `likes` WHERE `book_id` = `books`.`id`) AS `likes`",
     ];
@@ -90,9 +90,9 @@ function joinTest() {
         `LEFT JOIN \`orders\` ON \`customers\`.\`customer_id\` = \`orders\`.\`customer_id\`
 RIGHT JOIN \`order_items\` ON \`orders\`.\`order_id\` = \`order_items\`.\`order_id\`
 LEFT JOIN \`products\` ON \`order_items\`.\`product_id\` = \`products\`.\`product_id\``,
-        new TypeError(ErrorMessage.join.property),
-        new TypeError(ErrorMessage.join.type),
-        new TypeError(ErrorMessage.join.array),
+        new TypeError(ERROR_MESSAGE.JOIN.PROPERTY),
+        new TypeError(ERROR_MESSAGE.JOIN.TYPE),
+        new TypeError(ERROR_MESSAGE.JOIN.ARRAY),
     ];
     // console.log("Results: ", results);
     // console.log("Expected: ", expected);
@@ -122,7 +122,7 @@ function distinctTest() {
         return result;
     });
     // then
-    const expected = [true, false, new TypeError(ErrorMessage.distinct)];
+    const expected = [true, false, new TypeError(ERROR_MESSAGE.DISTINCT)];
     const isPass = results.every((result, i) => {
         if (result instanceof TypeError) {
             return result.message === expected[i].message;
@@ -147,7 +147,7 @@ function intoTest() {
         return result;
     });
     // then
-    const expected = ["`books`", new TypeError(ErrorMessage.into)];
+    const expected = ["`books`", new TypeError(ERROR_MESSAGE.INTO)];
     const isPass = results.every((result, i) => {
         if (result instanceof TypeError) {
             return result.message === expected[i].message;
@@ -179,9 +179,9 @@ function fromTest() {
     const expected = [
         "`books`, `categories`", // 정상 처리
         "`books`", // 정상처리
-        new TypeError(ErrorMessage.from),
-        new TypeError(ErrorMessage.from),
-        new TypeError(ErrorMessage.from),
+        new TypeError(ERROR_MESSAGE.FROM),
+        new TypeError(ERROR_MESSAGE.FROM),
+        new TypeError(ERROR_MESSAGE.FROM),
     ];
 
     const isPass = results.every((result, i) => {
@@ -260,8 +260,8 @@ function valuesTest() {
     const expected = [
         "('Alice', 'alice@gmail.com', 30), ('Bob', 'bob@gmail.com', 25)",
         "('Alice', 'alice@gmail.com', 30)",
-        new TypeError(ErrorMessage.values.twoDimensionArray),
-        new TypeError(ErrorMessage.values.type),
+        new TypeError(ERROR_MESSAGE.VALUES.TWO_DIMENSION_ARRAY),
+        new TypeError(ERROR_MESSAGE.VALUES.TYPE),
     ];
 
     const isPass = results.every((result, i) => {
@@ -301,7 +301,7 @@ function groupByTest() {
         "`category`, `author`",
         "`author`",
         "`category`",
-        new TypeError(ErrorMessage.groupBy.property),
+        new TypeError(ERROR_MESSAGE.GROUP_BY.PROPERTY),
     ];
 
     const isPass = results.every((result, i) => {
@@ -371,10 +371,10 @@ function orderByTest() {
     // then
     const expected = [
         "`name` ASC, `age` DESC",
-        new TypeError(ErrorMessage.orderBy.cols),
-        new TypeError(ErrorMessage.orderBy.order),
-        new TypeError(ErrorMessage.orderBy.cols),
-        new TypeError(ErrorMessage.orderBy.order),
+        new TypeError(ERROR_MESSAGE.ORDER_BY.COLS),
+        new TypeError(ERROR_MESSAGE.ORDER_BY.ORDER),
+        new TypeError(ERROR_MESSAGE.ORDER_BY.COLS),
+        new TypeError(ERROR_MESSAGE.ORDER_BY.ORDER),
     ];
 
     const isPass = results.every((result, i) => {
@@ -413,8 +413,8 @@ function limitTest() {
     const expected = [
         "20, 10", // 정상적인 출력
         "5", // 정상적인 출력
-        new TypeError(ErrorMessage.limit.base), // base 값이 잘못된 경우
-        new TypeError(ErrorMessage.limit.property), // 잘못된 limit 형식
+        new TypeError(ERROR_MESSAGE.LIMIT.BASE), // base 값이 잘못된 경우
+        new TypeError(ERROR_MESSAGE.LIMIT.PROPERTY), // 잘못된 limit 형식
     ];
 
     const isPass = results.every((result, i) => {
@@ -455,11 +455,11 @@ function setTest() {
     // then
     const expected = [
         "`name` = 'John', `age` = 25, `active` = true", // 정상 처리 예상
-        new TypeError(ErrorMessage.set.property), // 프로퍼티가 없는 객체, 에러 발생
-        new TypeError(ErrorMessage.set.object), // 객체 리터럴이 아닌 값, 에러 발생
+        new TypeError(ERROR_MESSAGE.SET.PROPERTY), // 프로퍼티가 없는 객체, 에러 발생
+        new TypeError(ERROR_MESSAGE.SET.OBJECT), // 객체 리터럴이 아닌 값, 에러 발생
         "`salary` = 5000, `position` = 'Manager'", // 정상 처리 예상
         "`invalidKey` = null", // null 값 정상 처리 예상
-        new TypeError(ErrorMessage.set.object), // Map 객체, 에러 발생
+        new TypeError(ERROR_MESSAGE.SET.OBJECT), // Map 객체, 에러 발생
     ];
 
     const isPass = results.every((result, i) => {
