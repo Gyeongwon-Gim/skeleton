@@ -1,4 +1,4 @@
-import { wrapIdentifier, wrapBacktick } from "../utils/backtick.js";
+import { wrapIdentifier, wrapBacktick } from "../lib/utils/backtick.js";
 
 function wrapIdentifierTest() {
     // given
@@ -46,8 +46,8 @@ function wrapBacktickTest() {
     ];
 
     // 결과와 기대값 출력
-    console.log("Results:", results);
-    console.log("Expected:", expected);
+    // console.log("Results:", results);
+    // console.log("Expected:", expected);
 
     const isPass = results.every((result, i) => result === expected[i]);
     console.log(`wrapBacktickExpression : ${isPass}`);

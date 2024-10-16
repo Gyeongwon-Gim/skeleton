@@ -1,5 +1,5 @@
-import { insert, remove, select, update } from "../CRUD.js";
-import { JOIN } from "../consts/Join.js";
+import { insert, remove, select, update } from "../lib/crud.js";
+import JOIN from "../lib/constants/JOIN.js";
 
 function removeTest() {
     //given
