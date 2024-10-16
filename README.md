@@ -1,12 +1,13 @@
 # SKELETON
-
-<img src="https://img.shields.io/badge/JavaScript-f7df1e?style=for-the-badge&logo=javascript&logoColor=white"/>
-<img src="https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white"/>
-<img src="https://img.shields.io/badge/node.js-5FA04E?style=for-the-badge&logo=node.js&logoColor=white"/>
-<img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"/>
-<img src="https://img.shields.io/badge/ESlint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white"/>
-<img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=Prettier&logoColor=white"/>
-
+<div align="center>
+ <img src="https://img.shields.io/badge/JavaScript-f7df1e?style=for-the-badge&logo=javascript&logoColor=white"/>
+ <img src="https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white"/>
+ <img src="https://img.shields.io/badge/node.js-5FA04E?style=for-the-badge&logo=node.js&logoColor=white"/>
+ <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"/>
+ <img src="https://img.shields.io/badge/ESlint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white"/>
+ <img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=Prettier&logoColor=white"/>
+</div>
+ 
 ## 프로젝트 소개
 
 Skeleton은 SQL 쿼리를 쉽게 작성하고 데이터베이스와 상호작용할 수 있도록 도와주는 도구입니다.
@@ -24,23 +25,29 @@ Skeleton은 SQL 쿼리를 쉽게 작성하고 데이터베이스와 상호작용
 ## 기술 스택
 
 ### Common
+<div align="center>
+ <img src="https://img.shields.io/badge/ESlint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white"/>
+ <img src="https://img.shields.io/badge/JavaScript-f7df1e?style=for-the-badge&logo=javascript&logoColor=white"/>
+ <img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=Prettier&logoColor=white"/>
+ <img src="https://img.shields.io/badge/node.js-5FA04E?style=for-the-badge&logo=node.js&logoColor=white"/>
+ <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"/>
+</div>
 
-<img src="https://img.shields.io/badge/ESlint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white"/>
-<img src="https://img.shields.io/badge/JavaScript-f7df1e?style=for-the-badge&logo=javascript&logoColor=white"/>
-<img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=Prettier&logoColor=white"/>
-<img src="https://img.shields.io/badge/node.js-5FA04E?style=for-the-badge&logo=node.js&logoColor=white"/>
-<img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"/>
 
 ### Cooperation
-
-<img src="https://img.shields.io/badge/slack-4A154B?style=for-the-badge&logo=slack&003545lor=white"/>
-<img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&003545lor=white"/>
-<img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"/>
+<div align="center>
+ <img src="https://img.shields.io/badge/slack-4A154B?style=for-the-badge&logo=slack&003545lor=white"/>
+ <img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&003545lor=white"/>
+ <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"/>
+</div>
 
 ### Deployment
+<div align="center>
+ <img src="https://img.shields.io/badge/slack-4A154B?style=for-the-badge&logo=slack&003545lor=white"/>
+ <img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&003545lor=white"/>
+ <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"/>
+</div>
 
-<img src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&003545lor=white"/>
-<img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&003545lor=white"/>
 
 ## 패키지 구조
 
