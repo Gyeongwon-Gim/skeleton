@@ -1,7 +1,9 @@
 # SKELETON
 
-<img src= "https://camo.githubusercontent.com/16fd4d7ebae516c26dde052267843ec6146b14ba3f9a43f94a5cb88a5f4f0c9d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f50726574746965722d4637423933453f7374796c653d666c61742d737175617265266c6f676f3d5072657474696572266c6f676f436f6c6f723d7768697465
-">
+<img src="https://img.shields.io/badge/ESlint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white"/>
+<img src="https://img.shields.io/badge/JavaScript-f7df1e?style=for-the-badge&logo=javascript&logoColor=white"/>
+<img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=Prettier&logoColor=white"/>
+<img src="https://img.shields.io/badge/mariadb-003545?style=for-the-badge&logo=mariadb&003545lor=white"/>
 
 ## 프로젝트 소개
 
@@ -21,17 +23,21 @@ Skeleton은 SQL 쿼리를 쉽게 작성하고 데이터베이스와 상호작용
 
 ### Common
 
-Javascript
-
-Prettier
-
-ESLint
+<img src="https://img.shields.io/badge/ESlint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white"/>
+<img src="https://img.shields.io/badge/JavaScript-f7df1e?style=for-the-badge&logo=javascript&logoColor=white"/>
+<img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=Prettier&logoColor=white"/>
+<img src="https://img.shields.io/badge/mariadb-003545?style=for-the-badge&logo=mariadb&003545lor=white"/>
 
 ### Cooperation
 
-Slack
+<img src="https://img.shields.io/badge/slack-4A154B?style=for-the-badge&logo=slack&003545lor=white"/>
+<img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&003545lor=white"/>
+<img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"/>
 
-Notion
+### Deployment
+
+<img src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&003545lor=white"/>
+<img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&003545lor=white"/>
 
 ## 패키지 구조
 
@@ -46,24 +52,33 @@ Notion
 └── package.json
 ```
 
-## 설치
+## 설치 방법
 
-npm 을 통해 설치할 수 있습니다.
+npm 을 통해 Skeleton을 설치할 수 있습니다.
+새로운 프로젝트를 생성하는 경우라면
 
-npm init → package.json
+`npm init`명령어를 사용하여 `package.json`파일을 생성하세요.
 
 ```bash
 $ npm install devcourse_skeleton
 ```
 
+혹은 GitHub에서 직접 클론하여 사용할 수 있습니다.
+
+```bash
+git clone https://github.com/Gyeongwon-Gim/skeleton.git
+```
+
+### 의존성 설치
+
+```bash
+$ npm install
+```
+
 ## 팀원
 
-|        |        |        |
-| ------ | ------ | ------ |
-| 이재혁 | 조성민 | 김경원 |
-
-| https://github.com/JaeHye0k / ahhpc2012@gmail.com
-| https://github.com/Ss0Mae
-/ ssomae@protonmail.ch |
-https://github.com/Gyeongwon-Gim
-/ nwgmig@gmail.com |
+|                              이재혁                              |                              조성민                              |                              김경원                              |
+| :--------------------------------------------------------------: | :--------------------------------------------------------------: | :--------------------------------------------------------------: |
+| <img src="https://avatars.githubusercontent.com/u/55015406?v=4"> | <img src="https://avatars.githubusercontent.com/u/80831228?v=4"> | <img src="https://avatars.githubusercontent.com/u/92427216?v=4"> |
+|                   https://github.com/JaeHye0k                    |                    https://github.com/Ss0Mae                     |                 https://github.com/Gyeongwon-Gim                 |
+|                       ahhpc2012@gmail.com                        |                       ssomae@protonmail.ch                       |                         nwgmig@gmail.com                         |
