@@ -9,14 +9,19 @@
     },
     "author": "",
     "license": "MIT",
-    "dependencies": {
-        "express": "^4.21.0",
-        "mysql2": "^3.11.3"
-    },
+    "contributors": [
+        "JaeHyeok Lee <ahhpc2012@gmail.com> (https://github.com/JaeHye0k)",
+        "SeongMin Jo <ssomae@protonmail.ch> (https://github.com/Ss0Mae)",
+        "GyeongWon Gim <nwgmig@gmail.com> (https://github.com/Gyeongwon-Gim)"
+    ],
     "keywords": [
         "Express",
         "MySQL"
     ],
+    "dependencies": {
+        "express": "^4.21.0",
+        "mysql2": "^3.11.3"
+    },
     "devDependencies": {
         "@babel/eslint-parser": "^7.25.7",
         "@babel/preset-env": "^7.25.7",
