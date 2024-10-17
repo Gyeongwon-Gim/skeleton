@@ -68,7 +68,7 @@ Skeleton은 SQL 쿼리를 쉽게 작성하고 데이터베이스와 상호작용
 
 ## 코드 흐름도
 
-![skeleton_sequnce_diagram](https://github.com/user-attachments/assets/872fbbbb-84b9-42a6-8874-7cb330ef0c68)
+![skeleton_sequence_diagram](https://github.com/user-attachments/assets/77fedaa4-1153-4509-816f-38c205a13eb1)
 
 ## 설치 방법
 
