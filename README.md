@@ -1,19 +1,21 @@
 # SKELETON
 
-<img src="https://img.shields.io/badge/JavaScript-f7df1e?style=for-the-badge&logo=javascript&logoColor=white"/>
-<img src="https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white"/>
-<img src="https://img.shields.io/badge/node.js-5FA04E?style=for-the-badge&logo=node.js&logoColor=white"/>
-<img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"/>
-<img src="https://img.shields.io/badge/ESlint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white"/>
-<img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=Prettier&logoColor=white"/>
-
+<div align="center">
+ <img src="https://img.shields.io/badge/JavaScript-f7df1e?style=for-the-badge&logo=javascript&logoColor=white"/>
+ <img src="https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white"/>
+ <img src="https://img.shields.io/badge/node.js-5FA04E?style=for-the-badge&logo=node.js&logoColor=white"/>
+ <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"/>
+ <img src="https://img.shields.io/badge/ESlint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white"/>
+ <img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=Prettier&logoColor=white"/>
+</div>
+ 
 ## 프로젝트 소개
 
 Skeleton은 SQL 쿼리를 쉽게 작성하고 데이터베이스와 상호작용할 수 있도록 도와주는 도구입니다.
 
 `select`, `insert`, `update`, `delete`와 같은 쿼리를 동적으로 생성할 수 있으며, literalize함수를 통해 서브쿼리도 지원합니다.
 
-🌐 [배포사이트](https://www.npmjs.com/package/devcourse_skeleton) | 발표 영상
+🌐 [배포사이트](https://www.npmjs.com/package/devcourse_skeleton) | 📄[API 문서](https://www.notion.so/API-reference-121b7e8f480180398dbac68e20103ba9?pvs=4) | 발표 영상
 
 ## 주요 기능
 
@@ -25,22 +27,28 @@ Skeleton은 SQL 쿼리를 쉽게 작성하고 데이터베이스와 상호작용
 
 ### Common
 
-<img src="https://img.shields.io/badge/ESlint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white"/>
-<img src="https://img.shields.io/badge/JavaScript-f7df1e?style=for-the-badge&logo=javascript&logoColor=white"/>
-<img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=Prettier&logoColor=white"/>
-<img src="https://img.shields.io/badge/node.js-5FA04E?style=for-the-badge&logo=node.js&logoColor=white"/>
-<img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"/>
+<div align="center">
+ <img src="https://img.shields.io/badge/ESlint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white"/>
+ <img src="https://img.shields.io/badge/JavaScript-f7df1e?style=for-the-badge&logo=javascript&logoColor=white"/>
+ <img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=Prettier&logoColor=white"/>
+ <img src="https://img.shields.io/badge/node.js-5FA04E?style=for-the-badge&logo=node.js&logoColor=white"/>
+ <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"/>
+</div>
 
 ### Cooperation
 
-<img src="https://img.shields.io/badge/slack-4A154B?style=for-the-badge&logo=slack&003545lor=white"/>
-<img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&003545lor=white"/>
-<img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"/>
+<div align="center">
+ <img src="https://img.shields.io/badge/slack-4A154B?style=for-the-badge&logo=slack&003545lor=white"/>
+ <img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&003545lor=white"/>
+ <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"/>
+</div>
 
 ### Deployment
 
-<img src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&003545lor=white"/>
-<img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&003545lor=white"/>
+<div align="center">
+ <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&003545lor=white"/>
+ <img src="https://img.shields.io/badge/npm-F05032?style=for-the-badge&logo=npm&logoColor=white"/>
+</div>
 
 ## 패키지 구조
 
@@ -57,6 +65,10 @@ Skeleton은 SQL 쿼리를 쉽게 작성하고 데이터베이스와 상호작용
 ├── LICENSE
 └── package.json
 ```
+
+## 코드 흐름도
+
+![skeleton_sequnce_diagram](https://github.com/user-attachments/assets/872fbbbb-84b9-42a6-8874-7cb330ef0c68)
 
 ## 설치 방법
 
